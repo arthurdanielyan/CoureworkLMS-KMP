@@ -1,0 +1,29 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "download_complete_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File %@ has been saved."
+          }
+        }
+      }
+    },
+    "download_complete_title" : {
+      "comment" : "Localizable.strings\n  iosApp\n\n  Created by Artur Danielyan on 08.11.25.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download complete"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

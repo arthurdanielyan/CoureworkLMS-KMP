@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknown_error_message">Something went wrong</string>
+    <string name="network_error_message">No internet connection</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="unknown_error_occurred">Unknown error occurred</string>
+    <string name="author">Author</string>
+    <string name="categories">Categories</string>
+    <string name="publication_year">Publication year</string>
+    <string name="language">Language</string>
+    <string name="show_all">Show all</string>
+    <string name="reference_only">Reference only</string>
+    <string name="cancel">Cancel</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description">Description</string>
+    <string name="authors">Authors</string>
+    <string name="published_by">Published by</string>
+    <string name="published_in">Published in</string>
+    <string name="edition">Edition</string>
+    <string name="total_copies">Total copies</string>
+    <string name="available_copies">Available copies</string>
+    <string name="no_available_copies">No copies available</string>
+    <string name="reference_only_message">This book is reference only</string>
+    <string name="download_pdf">Download PDF</string>
+    <string name="book_details">Book Details</string>
+    <string name="reserve">Reserve</string>
+    <string name="select_return_date">When would you like to return the book</string>
+    <string name="confirm">Confirm</string>
+    <string name="ok">OK</string>
+</resources>

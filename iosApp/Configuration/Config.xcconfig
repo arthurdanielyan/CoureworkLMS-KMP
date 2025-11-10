@@ -1,0 +1,22 @@
+TEAM_ID=
+
+PRODUCT_NAME=LMS
+PRODUCT_BUNDLE_IDENTIFIER=com.coursework.lms.LMS$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0
+
+// Framework configuration for Kotlin Multiplatform
+// The embedAndSignAppleFrameworkForXcode task sets KOTLIN_FRAMEWORK_BUILD_PATH
+// This path is set by the Gradle task when building from Xcode
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(KOTLIN_FRAMEWORK_BUILD_PATH) $(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME) $(SRCROOT)/../composeApp/build/xcode-frameworks
+
+// Linker flags - link the ComposeApp framework
+OTHER_LDFLAGS = $(inherited) -framework ComposeApp
+
+// Swift compiler flags - add framework search paths for Swift module imports
+// -F adds framework search paths for Swift to find modules
+// Note: FRAMEWORK_SEARCH_PATHS should be sufficient, but we add -F flags as well
+// to ensure Swift can find the module during compilation
+OTHER_SWIFT_FLAGS = $(inherited) -F"$(KOTLIN_FRAMEWORK_BUILD_PATH)" -F"$(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)" -F"$(SRCROOT)/../composeApp/build/xcode-frameworks"
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited)
