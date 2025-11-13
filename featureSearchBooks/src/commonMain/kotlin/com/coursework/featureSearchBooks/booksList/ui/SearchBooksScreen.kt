@@ -40,10 +40,12 @@ import com.coursework.corePresentation.commonUi.ContentWithFab
 import com.coursework.corePresentation.commonUi.IconButton
 import com.coursework.corePresentation.commonUi.LoadingStatePresenter
 import com.coursework.corePresentation.commonUi.PrimaryButton
+import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
 import com.coursework.corePresentation.extensions.ComposeCollect
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.books.BookViewState
+import com.coursework.corePresentation.viewState.getErrorMessage
 import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.featureSearchBooks.booksList.BooksListUiCallbacks
 import com.coursework.featureSearchBooks.booksList.BooksListViewModel
@@ -65,7 +67,6 @@ import commonResources.Res.drawable as CoreDrawables
 import commonResources.Res.string as CoreStrings
 import lms.featuresearchbooks.generated.resources.Res.drawable as Drawables
 import lms.featuresearchbooks.generated.resources.Res.string as Strings
-
 
 @Composable
 fun SearchBooksScreen(
@@ -263,7 +264,7 @@ private fun BooksList(
 private fun LazyListScope.booksListBottomContent(
     booksPagingItems: LazyPagingItems<BookViewState>
 ) {
-    when (booksPagingItems.loadState.append) {
+    when (val loadState = booksPagingItems.loadState.append) {
         is LoadState.Loading ->
             item {
                 CircularProgressIndicator()
@@ -271,6 +272,12 @@ private fun LazyListScope.booksListBottomContent(
 
         is LoadState.Error ->
             item {
+                Text(
+                    text = getErrorMessage(loadState.error).get(),
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                SpacerHeight(16.dp)
                 PrimaryButton(
                     text = stringResource(CoreStrings.retry),
                     onClick = booksPagingItems::retry

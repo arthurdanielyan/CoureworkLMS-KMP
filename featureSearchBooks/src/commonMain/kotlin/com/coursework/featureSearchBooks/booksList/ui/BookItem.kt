@@ -1,6 +1,5 @@
 package com.coursework.featureSearchBooks.booksList.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.coursework.corePresentation.commonUi.SingleStarRating
+import com.coursework.corePresentation.commonUi.contrastClickable
 import com.coursework.corePresentation.viewState.books.BookViewState
 import commonResources.ic_pdf
 import lms.featuresearchbooks.generated.resources.by_authors
@@ -36,7 +36,7 @@ internal fun BookItem(
     Column(
         modifier = Modifier
             .clip(MaterialTheme.shapes.medium)
-            .clickable(onClick = onClick)
+            .contrastClickable(onClick = onClick)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

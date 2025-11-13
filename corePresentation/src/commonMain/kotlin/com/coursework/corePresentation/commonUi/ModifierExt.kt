@@ -2,6 +2,8 @@ package com.coursework.corePresentation.commonUi
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +66,17 @@ fun Modifier.clickableWithoutIndication(
         onClickLabel = onClickLabel,
         role = role,
         onClick = onClick,
+    )
+}
+
+fun Modifier.contrastClickable(
+    onClick: () -> Unit,
+    interactionSource: MutableInteractionSource? = null,
+) = composed {
+    this.clickable(
+        onClick = onClick,
+        indication = ripple(color = MaterialTheme.colorScheme.onSurfaceVariant),
+        interactionSource = interactionSource
     )
 }
 
