@@ -6,8 +6,11 @@ import com.coursework.data.bookDetails.mapper.ReserveBookResponseMapper
 import com.coursework.data.bookDetails.model.ReserveBookResponse
 import com.coursework.domain.bookDetails.BookDetailsRepository
 import com.coursework.domain.bookDetails.model.BookDetails
+import com.coursework.domain.bookDetails.model.BookReviewPaginationResult
 import com.coursework.domain.bookDetails.model.NamedItem
 import com.coursework.domain.bookDetails.model.ReserveBook
+import com.coursework.domain.bookDetails.model.reviews.BookRatingDistribution
+import com.coursework.domain.books.model.PagingLimit
 import com.coursework.utils.mapList
 import kotlinx.datetime.LocalDate
 
@@ -55,6 +58,27 @@ class DummyBookDetailsRepository(
     override suspend fun getBookDetails(bookId: Long): Result<BookDetails> {
         return runCatching {
             MockData.bookDetails.first { it.id == bookId }
+        }
+    }
+
+    override suspend fun getReviews(
+        bookId: Long,
+        pagingLimit: PagingLimit
+    ): Result<BookReviewPaginationResult> {
+        return runCatching {
+            BookReviewPaginationResult(
+                reviews = MockData.BookReviews.subList(
+                    fromIndex = pagingLimit.offset,
+                    toIndex = (pagingLimit.offset + pagingLimit.limit).coerceAtMost(MockData.BookReviews.size)
+                ),
+                isEndReached = pagingLimit.offset + pagingLimit.limit >= MockData.BookReviews.size,
+            )
+        }
+    }
+
+    override suspend fun getBookRatingDistribution(bookId: Long): Result<BookRatingDistribution> {
+        return runCatching {
+            MockData.BookRatingDistribution
         }
     }
 }

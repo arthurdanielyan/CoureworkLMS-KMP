@@ -11,4 +11,5 @@ data class BookViewState(
     val authors: ComposeList<String>,
     val publisher: String?,
     val hasPdfVersion: Boolean,
+    val rating: Float,
 )

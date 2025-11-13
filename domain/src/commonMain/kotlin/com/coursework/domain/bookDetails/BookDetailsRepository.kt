@@ -1,8 +1,11 @@
 package com.coursework.domain.bookDetails
 
 import com.coursework.domain.bookDetails.model.BookDetails
+import com.coursework.domain.bookDetails.model.BookReviewPaginationResult
 import com.coursework.domain.bookDetails.model.NamedItem
 import com.coursework.domain.bookDetails.model.ReserveBook
+import com.coursework.domain.bookDetails.model.reviews.BookRatingDistribution
+import com.coursework.domain.books.model.PagingLimit
 import kotlinx.datetime.LocalDate
 
 interface BookDetailsRepository {
@@ -18,4 +21,8 @@ interface BookDetailsRepository {
     suspend fun reserveBook(bookId: Long, returnDate: LocalDate): Result<ReserveBook>
 
     suspend fun getBookDetails(bookId: Long): Result<BookDetails>
+
+    suspend fun getReviews(bookId: Long, pagingLimit: PagingLimit): Result<BookReviewPaginationResult>
+
+    suspend fun getBookRatingDistribution(bookId: Long): Result<BookRatingDistribution>
 }

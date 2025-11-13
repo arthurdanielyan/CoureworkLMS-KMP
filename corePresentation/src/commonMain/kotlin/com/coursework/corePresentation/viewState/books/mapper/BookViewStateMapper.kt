@@ -15,6 +15,7 @@ class BookViewStateMapper : Mapper<Book, BookViewState> {
             authors = from.authors.toComposeList(),
             publisher = from.publisher,
             hasPdfVersion = from.hasPdfVersion,
+            rating = from.rating,
         )
     }
 }

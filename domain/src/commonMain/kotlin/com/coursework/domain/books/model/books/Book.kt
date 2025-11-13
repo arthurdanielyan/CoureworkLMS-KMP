@@ -7,4 +7,5 @@ data class Book(
     val authors: List<String>,
     val publisher: String?,
     val hasPdfVersion: Boolean,
+    val rating: Float,
 )

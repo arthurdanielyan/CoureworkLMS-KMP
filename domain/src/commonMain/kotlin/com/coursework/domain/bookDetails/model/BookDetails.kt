@@ -4,6 +4,7 @@ data class BookDetails(
     val id: Long,
     val title: String,
     val subtitle: String?,
+    val description: String,
     val authors: List<String>,
     val publisher: String?,
     val publicationYear: Int?,
@@ -17,4 +18,5 @@ data class BookDetails(
     val copiesAvailable: Int,
     val language: String,
     val isReferenceOnly: Boolean,
+    val rating: Float?,
 )

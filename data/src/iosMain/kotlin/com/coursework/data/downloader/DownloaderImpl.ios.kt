@@ -10,10 +10,6 @@ import platform.Foundation.NSURLSession
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.downloadTaskWithURL
 import platform.Foundation.stringWithFormat
-import platform.UIKit.UIAlertAction
-import platform.UIKit.UIAlertActionStyleDefault
-import platform.UIKit.UIAlertController
-import platform.UIKit.UIAlertControllerStyleAlert
 import platform.UserNotifications.UNMutableNotificationContent
 import platform.UserNotifications.UNNotificationRequest
 import platform.UserNotifications.UNNotificationSound
@@ -25,67 +21,75 @@ actual class DownloaderImpl : Downloader {
 
     @OptIn(ExperimentalForeignApi::class)
     actual override fun downloadFile(url: String, mimeType: String, title: String): Long {
-        val nsUrl = NSURL.URLWithString(url) ?: return -1
+        val nsUrl = NSURL.URLWithString(url)
+        if (nsUrl == null) {
+            println("Invalid URL: $url")
+            return -1
+        }
+
         val session = NSURLSession.sharedSession
 
         val downloadTask = session.downloadTaskWithURL(nsUrl) { location, _, error ->
-            if (error != null) {
-                println("Download failed: ${error.localizedDescription}")
+            when {
+                error != null -> {
+                    println("Download failed: ${error.localizedDescription}")
+                    return@downloadTaskWithURL
+                }
+                location == null -> {
+                    println("Download location is null")
+                    return@downloadTaskWithURL
+                }
+            }
+
+            val fileManager = NSFileManager.defaultManager
+            val documentsDir = fileManager.URLsForDirectory(
+                directory = NSDocumentDirectory,
+                inDomains = NSUserDomainMask
+            ).firstOrNull() as? NSURL
+
+            if (documentsDir == null) {
+                println("Documents directory not found")
                 return@downloadTaskWithURL
             }
 
-            location?.let { fileUrl ->
-                val fileManager = NSFileManager.defaultManager
-                val documentsDir = fileManager.URLsForDirectory(
-                    directory = NSDocumentDirectory,
-                    inDomains = NSUserDomainMask
-                ).firstOrNull() as? NSURL
+            val ext = mimeType.substringAfterLast('/', "")
+            val sanitizedTitle = sanitizeFileName(title)
+            val fileName = if (ext.isNotEmpty()) "$sanitizedTitle.$ext" else sanitizedTitle
+            val destination = documentsDir.URLByAppendingPathComponent(fileName)
 
-                val ext = mimeType.substringAfterLast('/', "")
-                val sanitizedTitle = sanitizeFileName(title)
-                val fileName = if (ext.isNotEmpty()) "$sanitizedTitle.$ext" else sanitizedTitle
-                val destination = documentsDir?.URLByAppendingPathComponent(fileName)
+            try {
+                if (fileManager.fileExistsAtPath(destination?.path!!)) {
+                    fileManager.removeItemAtURL(destination, null)
+                }
+                fileManager.moveItemAtURL(location, destination, null)
+                println("File saved at: ${destination.path}")
+            } catch (e: Throwable) {
+                println("Failed to move file: ${e.message}")
+                return@downloadTaskWithURL
+            }
 
-                if (destination != null) {
-                    try {
-                        fileManager.removeItemAtURL(destination, null)
-                    } catch (_: Throwable) {
-                    }
-                    fileManager.moveItemAtURL(fileUrl, destination, null)
-                    println("Saved file at: ${destination.path}")
+            // Schedule notification on the main thread
+            dispatch_async(dispatch_get_main_queue()) {
+                val titleText = getLocalizedString("download_complete_title")
+                val bodyText = getLocalizedString("download_complete_body", destination.lastPathComponent.orEmpty())
 
-                    // Schedule a local notification
-                    dispatch_async(dispatch_get_main_queue()) {
-                        val title = getLocalizedString("download_complete_title")
-                        val body = getLocalizedString("download_complete_body", destination.lastPathComponent.orEmpty())
+                val content = UNMutableNotificationContent().apply {
+                    setTitle(titleText)
+                    setBody(bodyText)
+                    setSound(UNNotificationSound.defaultSound)
+                }
 
-                        val alert = UIAlertController.alertControllerWithTitle(
-                            title,
-                            message = body,
-                            preferredStyle = UIAlertControllerStyleAlert
-                        )
-                        alert.addAction(UIAlertAction.actionWithTitle("OK", style = UIAlertActionStyleDefault) { _ -> })
+                val request = UNNotificationRequest.requestWithIdentifier(
+                    "downloadComplete-${destination.lastPathComponent}",
+                    content,
+                    null
+                )
 
-                        val content = UNMutableNotificationContent().apply {
-                            setTitle(title)
-                            setBody(body)
-                            setSound(UNNotificationSound.defaultSound)
-                        }
-
-                        val request = UNNotificationRequest.requestWithIdentifier(
-                            "downloadComplete-${destination.lastPathComponent}",
-                            content,
-                            null
-                        )
-
-                        UNUserNotificationCenter.currentNotificationCenter()
-                            .addNotificationRequest(request) { error ->
-                                if (error != null) {
-                                    println("Notification error: ${error.localizedDescription}")
-                                } else {
-                                    println("Notification scheduled (simulator won’t show it)")
-                                }
-                            }
+                UNUserNotificationCenter.currentNotificationCenter().addNotificationRequest(request) { notifError ->
+                    if (notifError != null) {
+                        println("Notification error: ${notifError.localizedDescription}")
+                    } else {
+                        println("Notification scheduled")
                     }
                 }
             }

@@ -68,8 +68,8 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
     }
 
     override fun pop() {
-        val orderedControllers = controllers.values.toList().asReversed()
-        for (controller in orderedControllers) {
+        for (controllerEntry in controllers) {
+            val controller = controllerEntry.value
             if (controller.previousBackStackEntry != null) {
                 controller.popBackstackIfResumed(controller.currentBackStackEntry?.lifecycle)
                 return

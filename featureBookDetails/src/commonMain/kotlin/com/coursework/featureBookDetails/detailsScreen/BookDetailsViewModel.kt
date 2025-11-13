@@ -1,4 +1,4 @@
-package com.coursework.featureBookDetails.presentation
+package com.coursework.featureBookDetails.detailsScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,22 +7,33 @@ import com.coursework.corePresentation.navigation.destinations.BookDetailsDestin
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
 import com.coursework.corePresentation.viewState.getErrorMessage
+import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.domain.bookDetails.model.BookDetails
 import com.coursework.domain.bookDetails.usecases.GetBookDetailsUseCase
+import com.coursework.domain.bookDetails.usecases.GetBookRatingDistribution
+import com.coursework.domain.bookDetails.usecases.GetBookReviewsUseCase
 import com.coursework.domain.bookDetails.usecases.GetMaxReservationDate
 import com.coursework.domain.bookDetails.usecases.ReserveBookUseCase
+import com.coursework.domain.books.model.PagingLimit
 import com.coursework.domain.books.usecases.DownloadPdfUseCase
-import com.coursework.featureBookDetails.presentation.mapper.BookDetailsViewStateMapper
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsDialogState
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsScreenViewState
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsViewState
+import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
+import com.coursework.featureBookDetails.detailsScreen.mapper.BookDetailsViewStateMapper
+import com.coursework.featureBookDetails.detailsScreen.mapper.BookReviewViewStateMapper
+import com.coursework.featureBookDetails.detailsScreen.mapper.RatingDistributionViewStateMapper
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsDialogState
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsScreenViewState
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsViewState
+import com.coursework.utils.combine
+import com.coursework.utils.mapList
 import com.coursework.utils.stateInWhileSubscribed
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.TimeZone
@@ -39,13 +50,26 @@ internal class BookDetailsViewModel(
     private val getMaxReservationDate: GetMaxReservationDate,
     private val reserveBookUseCase: ReserveBookUseCase,
     private val bookDetailsViewStateMapper: BookDetailsViewStateMapper,
+    private val getBookRatingDistribution: GetBookRatingDistribution,
+    private val ratingDistributionViewStateMapper: RatingDistributionViewStateMapper,
+    private val getBookReviewsUseCase: GetBookReviewsUseCase,
+    private val bookReviewViewStateMapper: BookReviewViewStateMapper,
 ) : ViewModel(), BookDetailsUiCallbacks {
+
+    private companion object {
+        const val TopReviewCount = 3
+    }
 
     private var bookDetails: BookDetails? = null
 
     private val dataLoadingState = MutableStateFlow(DataLoadingState.Loading)
     private val bookDetailsState = MutableStateFlow<BookDetailsViewState?>(null)
     private val isReserveButtonLoading = MutableStateFlow(false)
+    private val ratingDistribution = MutableStateFlow(RatingDistributionBlockViewState())
+    private val topReviews = MutableStateFlow<List<BookReviewViewState>>(emptyList())
+    private val showToAllReviewsButton = MutableStateFlow(false)
+
+    private val reviewsExist = MutableStateFlow(false)
 
     private val refreshEvent = MutableSharedFlow<Unit>(
         replay = 1
@@ -58,22 +82,35 @@ internal class BookDetailsViewModel(
         dataLoadingState,
         bookDetailsState,
         isReserveButtonLoading,
-    ) { dataLoadingState, bookDetails, isReserveButtonLoading ->
+        ratingDistribution,
+        topReviews,
+        showToAllReviewsButton,
+    ) { dataLoadingState,
+        bookDetails,
+        isReserveButtonLoading,
+        ratingDistribution,
+        topReviews,
+        showToAllReviewsButton ->
 
         BookDetailsScreenViewState(
             dataLoadingState = dataLoadingState,
             bookDetails = bookDetails?.copy(
                 isReserveButtonLoading = isReserveButtonLoading,
             ),
+            ratingDistribution = ratingDistribution,
+            topReviews = topReviews.toComposeList(),
+            showToAllReviewsButton = showToAllReviewsButton,
         )
     }.stateInWhileSubscribed(viewModelScope, BookDetailsScreenViewState())
 
     init {
-        observeRefreshEvent()
+        getBookDetails()
+        getTopReviews()
+        getRatingDistribution()
         onRefresh()
     }
 
-    private fun observeRefreshEvent() {
+    private fun getBookDetails() {
         viewModelScope.launch {
             refreshEvent
                 .collectLatest {
@@ -93,6 +130,57 @@ internal class BookDetailsViewModel(
         }
     }
 
+    private fun getRatingDistribution() {
+        combine(
+            refreshEvent,
+            reviewsExist,
+        ) { _, reviewsExist ->
+            if (reviewsExist.not()) {
+                ratingDistribution.update {
+                    RatingDistributionBlockViewState()
+                }
+                return@combine
+            }
+            getBookRatingDistribution(destination.id)
+                .onSuccess { result ->
+                    ratingDistribution.update {
+                        RatingDistributionBlockViewState(
+                            ratingDistribution = ratingDistributionViewStateMapper.map(
+                                result
+                            ),
+                            dataLoadingState = DataLoadingState.Success
+                        )
+                    }
+                }
+                .onFailure { throwable ->
+                    ratingDistribution.update {
+                        RatingDistributionBlockViewState(
+                            dataLoadingState = throwable.toDataLoadingState()
+                        )
+                    }
+                }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getTopReviews() {
+        viewModelScope.launch {
+            refreshEvent.collectLatest {
+                getBookReviewsUseCase(
+                    GetBookReviewsUseCase.Params(
+                        bookId = destination.id,
+                        pagingLimit = PagingLimit(TopReviewCount)
+                    )
+                ).onSuccess { result ->
+                    reviewsExist.update { result.reviews.isNotEmpty() }
+                    showToAllReviewsButton.update { result.reviews.size > TopReviewCount }
+                    topReviews.update {
+                        bookReviewViewStateMapper.mapList(result.reviews)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onBackClick() {
         appRouter.pop()
     }
@@ -101,6 +189,10 @@ internal class BookDetailsViewModel(
         bookDetails?.let {
             downloadPdfUseCase(it)
         }
+    }
+
+    override fun onToReviewsClick() {
+//        appRouter.navigate()
     }
 
     @OptIn(ExperimentalTime::class)

@@ -1,15 +1,20 @@
-package com.coursework.featureBookDetails.presentation.viewState
+package com.coursework.featureBookDetails.detailsScreen.viewState
 
 import androidx.compose.runtime.Immutable
 import com.coursework.corePresentation.viewState.ComposeList
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
-import com.coursework.domain.bookDetails.model.NamedItem
+import com.coursework.corePresentation.viewState.emptyComposeList
+import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
 
 @Immutable
 internal data class BookDetailsScreenViewState(
     val dataLoadingState: DataLoadingState = DataLoadingState.Loading,
     val bookDetails: BookDetailsViewState? = null,
+    val ratingDistribution: RatingDistributionBlockViewState = RatingDistributionBlockViewState(),
+    val topReviews: ComposeList<BookReviewViewState> = emptyComposeList(),
+    val showToAllReviewsButton: Boolean = false
 )
 
 @Immutable
@@ -17,11 +22,12 @@ internal data class BookDetailsViewState(
     val id: Long,
     val title: String,
     val subtitle: String?,
+    val description: String,
     val authors: ComposeList<String>,
     val publisher: String?,
     val publicationYear: Int?,
     val edition: String?,
-    val categories: ComposeList<NamedItem>,
+    val categories: ComposeList<String>,
     val hasPdfVersion: Boolean,
     val pdfUrl: String?,
     val coverImageUrl: String?,
@@ -30,6 +36,7 @@ internal data class BookDetailsViewState(
     val language: String,
     val isReferenceOnly: Boolean,
     val isReserveButtonLoading: Boolean = false,
+    val rating: Float?,
 ) {
     val showBookButton = copiesAvailable > 0 && isReferenceOnly.not()
 }

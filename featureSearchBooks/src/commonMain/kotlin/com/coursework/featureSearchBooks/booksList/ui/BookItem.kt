@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.coursework.corePresentation.commonUi.SingleStarRating
 import com.coursework.corePresentation.viewState.books.BookViewState
 import commonResources.ic_pdf
 import lms.featuresearchbooks.generated.resources.by_authors
@@ -39,13 +40,22 @@ internal fun BookItem(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = book.title,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.headlineSmall,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = book.title,
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.headlineSmall,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            RatingBlock(
+                rating = book.rating,
+            )
+        }
 
         book.subtitle?.let {
             Text(
@@ -104,3 +114,33 @@ internal fun BookItem(
         }
     }
 }
+
+@Composable
+private fun RatingBlock(
+    rating: Float,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        Text(
+            text = formatFloat(rating),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        SingleStarRating(
+            percentage = rating/5f,
+            modifier = Modifier.size(16.dp)
+        )
+    }
+}
+
+fun formatFloat(value: Float): String {
+    val rounded = (value * 10).toInt()
+    val integerPart = rounded / 10
+    val decimalPart = rounded % 10
+    return if (decimalPart == 0) "$integerPart" else "$integerPart.$decimalPart"
+}
+

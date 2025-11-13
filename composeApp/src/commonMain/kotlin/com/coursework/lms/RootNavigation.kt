@@ -25,7 +25,7 @@ import com.coursework.corePresentation.navigation.destinations.EditBookDestinati
 import com.coursework.corePresentation.navigation.destinations.HomeScreenDestination
 import com.coursework.corePresentation.navigation.destinations.LoginDestination
 import com.coursework.corePresentation.navigation.registerNavController
-import com.coursework.featureBookDetails.ui.BookDetailsScreen
+import com.coursework.featureBookDetails.detailsScreen.ui.BookDetailsScreen
 import com.coursework.featureEditBook.ui.EditBookScreen
 import com.coursework.featureHome.ui.HomeScreen
 import com.coursework.featureLogin.ui.LoginScreen

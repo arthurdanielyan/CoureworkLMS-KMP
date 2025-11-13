@@ -1,4 +1,4 @@
-package com.coursework.featureBookDetails.ui
+package com.coursework.featureBookDetails.detailsScreen.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.coursework.corePresentation.commonUi.TextButton
-import com.coursework.featureBookDetails.presentation.BookDetailsUiCallbacks
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsDialogState
+import com.coursework.featureBookDetails.detailsScreen.BookDetailsUiCallbacks
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsDialogState
 import commonResources.cancel
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
@@ -30,11 +30,11 @@ import lms.featurebookdetails.generated.resources.confirm
 import lms.featurebookdetails.generated.resources.ok
 import lms.featurebookdetails.generated.resources.select_return_date
 import org.jetbrains.compose.resources.stringResource
-import commonResources.Res.string as CoreStrings
-import lms.featurebookdetails.generated.resources.Res.string as Strings
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import commonResources.Res.string as CoreStrings
+import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @Composable
 internal fun BookDetailsDialog(

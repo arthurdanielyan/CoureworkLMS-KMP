@@ -1,6 +1,8 @@
 package com.coursework.domain.di
 
 import com.coursework.domain.bookDetails.usecases.GetBookDetailsUseCase
+import com.coursework.domain.bookDetails.usecases.GetBookRatingDistribution
+import com.coursework.domain.bookDetails.usecases.GetBookReviewsUseCase
 import com.coursework.domain.bookDetails.usecases.GetCategories
 import com.coursework.domain.bookDetails.usecases.GetLanguages
 import com.coursework.domain.bookDetails.usecases.GetMaxReservationDate
@@ -22,4 +24,6 @@ val domainModule = module {
     factoryOf(::GetTeachers)
     factoryOf(::ReserveBookUseCase)
     factoryOf(::GetMaxReservationDate)
+    factoryOf(::GetBookReviewsUseCase)
+    factoryOf(::GetBookRatingDistribution)
 }

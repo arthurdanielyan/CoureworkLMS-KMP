@@ -52,16 +52,17 @@ import com.coursework.featureSearchBooks.shared.SearchBooksSharedViewModel
 import commonResources.ic_add
 import commonResources.ic_close
 import commonResources.ic_more
+import commonResources.retry
 import lms.featuresearchbooks.generated.resources.ic_logout
 import lms.featuresearchbooks.generated.resources.ic_options
 import lms.featuresearchbooks.generated.resources.logout
 import lms.featuresearchbooks.generated.resources.no_books_found
-import lms.featuresearchbooks.generated.resources.retry
 import lms.featuresearchbooks.generated.resources.search_books
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import commonResources.Res.drawable as CoreDrawables
+import commonResources.Res.string as CoreStrings
 import lms.featuresearchbooks.generated.resources.Res.drawable as Drawables
 import lms.featuresearchbooks.generated.resources.Res.string as Strings
 
@@ -271,7 +272,7 @@ private fun LazyListScope.booksListBottomContent(
         is LoadState.Error ->
             item {
                 PrimaryButton(
-                    text = stringResource(Strings.retry),
+                    text = stringResource(CoreStrings.retry),
                     onClick = booksPagingItems::retry
                 )
             }

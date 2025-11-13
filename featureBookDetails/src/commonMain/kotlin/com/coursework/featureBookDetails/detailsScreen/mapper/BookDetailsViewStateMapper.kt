@@ -1,8 +1,8 @@
-package com.coursework.featureBookDetails.presentation.mapper
+package com.coursework.featureBookDetails.detailsScreen.mapper
 
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.domain.bookDetails.model.BookDetails
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsViewState
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsViewState
 import com.coursework.utils.Mapper
 
 internal class BookDetailsViewStateMapper : Mapper<BookDetails, BookDetailsViewState> {
@@ -12,11 +12,12 @@ internal class BookDetailsViewStateMapper : Mapper<BookDetails, BookDetailsViewS
             id = from.id,
             title = from.title,
             subtitle = from.subtitle,
+            description = from.description,
             authors = from.authors.toComposeList(),
             publisher = from.publisher,
             publicationYear = from.publicationYear,
             edition = from.edition,
-            categories = from.categories.toComposeList(),
+            categories = from.categories.map { it.displayName }.toComposeList(),
             hasPdfVersion = from.hasPdfVersion,
             pdfUrl = from.pdfUrl,
             coverImageUrl = from.coverImageUrl,
@@ -24,6 +25,7 @@ internal class BookDetailsViewStateMapper : Mapper<BookDetails, BookDetailsViewS
             copiesAvailable = from.copiesAvailable,
             language = from.language,
             isReferenceOnly = from.isReferenceOnly,
+            rating = from.rating,
         )
     }
 }

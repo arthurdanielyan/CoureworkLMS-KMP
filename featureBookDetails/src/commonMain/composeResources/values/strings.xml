@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="description">Description</string>
+    <string name="subtitle">Subtitle</string>
     <string name="authors">Authors</string>
     <string name="published_by">Published by</string>
     <string name="published_in">Published in</string>
@@ -15,4 +16,7 @@
     <string name="select_return_date">When would you like to return the book</string>
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
+    <string name="no_reviews">No reviews yet</string>
+    <string name="rating_reviews">Ratings and reviews</string>
+    <string name="to_reviews">See all reviews</string>
 </resources>

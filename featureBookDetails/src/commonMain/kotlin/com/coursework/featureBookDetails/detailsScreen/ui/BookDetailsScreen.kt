@@ -1,9 +1,10 @@
-package com.coursework.featureBookDetails.ui
+package com.coursework.featureBookDetails.detailsScreen.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -30,6 +31,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.AsyncImage
+import com.coursework.corePresentation.commonUi.FiveStarsRating
 import com.coursework.corePresentation.commonUi.LoadingStatePresenter
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.topBar.ContentWithTopBarHeader
@@ -37,19 +39,17 @@ import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
 import com.coursework.corePresentation.navigation.destinations.BookDetailsDestination
 import com.coursework.corePresentation.viewState.DataLoadingState
-import com.coursework.featureBookDetails.presentation.BookDetailsUiCallbacks
-import com.coursework.featureBookDetails.presentation.BookDetailsViewModel
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsScreenViewState
-import com.coursework.featureBookDetails.presentation.viewState.BookDetailsViewState
+import com.coursework.featureBookDetails.detailsScreen.BookDetailsUiCallbacks
+import com.coursework.featureBookDetails.detailsScreen.BookDetailsViewModel
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsScreenViewState
+import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsViewState
 import commonResources.author
 import commonResources.categories
 import commonResources.language
-import commonResources.Res.string as CoreStrings
 import lms.featurebookdetails.generated.resources.authors
 import lms.featurebookdetails.generated.resources.available_copies
 import lms.featurebookdetails.generated.resources.book_cover_placeholder
 import lms.featurebookdetails.generated.resources.book_details
-import lms.featurebookdetails.generated.resources.description
 import lms.featurebookdetails.generated.resources.download_pdf
 import lms.featurebookdetails.generated.resources.edition
 import lms.featurebookdetails.generated.resources.no_available_copies
@@ -62,8 +62,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import lms.featurebookdetails.generated.resources.Res.string as Strings
+import commonResources.Res.string as CoreStrings
 import lms.featurebookdetails.generated.resources.Res.drawable as Drawables
+import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +119,7 @@ private fun BookDetailsScreen(
         ) {
             state.bookDetails?.let {
                 BookDetailsContent(
-                    bookDetails = it,
+                    state = state,
                     callbacks = callbacks,
                 )
             }
@@ -128,15 +129,19 @@ private fun BookDetailsScreen(
 
 @Composable
 private fun BookDetailsContent(
-    bookDetails: BookDetailsViewState,
+    state: BookDetailsScreenViewState,
     callbacks: BookDetailsUiCallbacks,
 ) {
+    state.bookDetails ?: return
     ContentWithTopBarHeader(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface),
-        title = bookDetails.title,
-        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+        title = state.bookDetails.title,
+        contentPadding = PaddingValues(
+            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                    + 16.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         onBackClick = callbacks::onBackClick,
         header = {
@@ -144,46 +149,75 @@ private fun BookDetailsContent(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onBackClick = callbacks::onBackClick,
-                coverImageUrl = bookDetails.coverImageUrl,
-                bookTitle = bookDetails.title
+                coverImageUrl = state.bookDetails.coverImageUrl,
+                bookTitle = state.bookDetails.title
             )
         }
     ) {
         bookDetailsContent(
-            bookDetails = bookDetails,
+            state = state,
             onDownloadPdfClick = callbacks::onDownloadPdfClick,
-            onReserveBookClick = callbacks::onReserveClick
+            onReserveBookClick = callbacks::onReserveClick,
+            onToReviewsClick = callbacks::onToReviewsClick,
         )
     }
 }
 
 private fun LazyListScope.bookDetailsContent(
-    bookDetails: BookDetailsViewState,
+    state: BookDetailsScreenViewState,
     onDownloadPdfClick: () -> Unit,
     onReserveBookClick: () -> Unit,
+    onToReviewsClick: () -> Unit
 ) {
+    val bookDetails = state.bookDetails ?: return
     if (bookDetails.hasPdfVersion) {
-        item("download") {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                PrimaryButton(
-                    text = stringResource(Strings.download_pdf),
-                    onClick = onDownloadPdfClick
-                )
-                if (bookDetails.showBookButton) {
-                    PrimaryButton(
-                        text = stringResource(Strings.reserve),
-                        onClick = onReserveBookClick,
-                    )
-                }
-            }
+        item("action_buttons") {
+            ActionButtons(
+                onDownloadPdfClick = onDownloadPdfClick,
+                showReserveButton = bookDetails.isReferenceOnly.not(),
+                onReserveBookClick = onReserveBookClick
+            )
         }
     }
+    detailsPart(
+        bookDetails = bookDetails
+    )
+    ratingPart(
+        ratingDistribution = state.ratingDistribution,
+        topReviews = state.topReviews,
+        onToAllReviewsClick = onToReviewsClick
+    )
+}
+
+@Composable
+private fun ActionButtons(
+    onDownloadPdfClick: () -> Unit,
+    showReserveButton: Boolean,
+    onReserveBookClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        PrimaryButton(
+            text = stringResource(Strings.download_pdf),
+            onClick = onDownloadPdfClick
+        )
+        if (showReserveButton) {
+            PrimaryButton(
+                text = stringResource(Strings.reserve),
+                onClick = onReserveBookClick,
+            )
+        }
+    }
+}
+
+private fun LazyListScope.detailsPart(
+    bookDetails: BookDetailsViewState
+) {
     if (bookDetails.isReferenceOnly) {
-        item("subtitle") {
+        item("is_ref_only") {
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
@@ -195,11 +229,39 @@ private fun LazyListScope.bookDetailsContent(
     }
     if (bookDetails.subtitle?.isNotBlank() == true) {
         item("subtitle") {
-            BookDetailBlock(
-                title = stringResource(Strings.description),
-                detail = bookDetails.subtitle,
+            Text(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = bookDetails.subtitle,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
+    }
+    if (bookDetails.rating != null) {
+        item("rating") {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = bookDetails.rating.toString(),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.headlineLarge,
+                )
+                FiveStarsRating(
+                    rating = bookDetails.rating,
+                )
+            }
+        }
+    }
+    item("description") {
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = bookDetails.description,
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.bodyLarge,
+        )
     }
     if (bookDetails.authors.isNotEmpty()) {
         item("authors") {
