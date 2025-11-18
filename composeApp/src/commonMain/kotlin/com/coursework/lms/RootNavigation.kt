@@ -15,31 +15,29 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import coil3.compose.LocalPlatformContext
 import com.coursework.corePresentation.navigation.SlideInFromLeft
 import com.coursework.corePresentation.navigation.SlideInFromRight
 import com.coursework.corePresentation.navigation.SlideOutToLeft
 import com.coursework.corePresentation.navigation.SlideOutToRight
-import com.coursework.corePresentation.navigation.destinations.BookDetailsDestination
 import com.coursework.corePresentation.navigation.destinations.EditBookDestination
 import com.coursework.corePresentation.navigation.destinations.HomeScreenDestination
 import com.coursework.corePresentation.navigation.destinations.LoginDestination
 import com.coursework.corePresentation.navigation.registerNavController
-import com.coursework.featureBookDetails.detailsScreen.ui.BookDetailsScreen
+import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.common.bookDetailsNavigation
 import com.coursework.featureEditBook.ui.EditBookScreen
 import com.coursework.featureHome.ui.HomeScreen
 import com.coursework.featureLogin.ui.LoginScreen
 import kotlin.reflect.KClass
 
 private val appScreens = mapOf<KClass<*>, @Composable (NavBackStackEntry) -> Unit>(
-    BookDetailsDestination::class to { BookDetailsScreen(it.toRoute()) },
+//    BookDetailsDestination::class to { BookDetailsScreen(it.toRoute()) },
     EditBookDestination::class to { EditBookScreen(it.toRoute()) },
 )
 
 @Composable
 internal fun RootNavigation() {
     val navController = registerNavController(RootNavigationKey)
-    LocalPlatformContext
     NavHost(
         navController = navController,
         startDestination = LoginDestination,
@@ -67,6 +65,13 @@ internal fun RootNavigation() {
         ) {
             HomeScreen()
         }
+
+        bookDetailsNavigation(
+            getParentDestination = {
+                val parentEntry = navController.getBackStackEntry(BookDetailsDestination::class)
+                parentEntry.toRoute<BookDetailsDestination>()
+            }
+        )
     }
 }
 

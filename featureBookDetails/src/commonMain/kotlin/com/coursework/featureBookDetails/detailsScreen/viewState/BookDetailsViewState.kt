@@ -6,15 +6,16 @@ import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
 import com.coursework.corePresentation.viewState.emptyComposeList
 import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
-import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 
 @Immutable
 internal data class BookDetailsScreenViewState(
+    val screenTitleWhileLoading: String = "",
     val dataLoadingState: DataLoadingState = DataLoadingState.Loading,
     val bookDetails: BookDetailsViewState? = null,
-    val ratingDistribution: RatingDistributionBlockViewState = RatingDistributionBlockViewState(),
+    val ratingDistribution: RatingDistributionViewState = RatingDistributionViewState(),
     val topReviews: ComposeList<BookReviewViewState> = emptyComposeList(),
-    val showToAllReviewsButton: Boolean = false
+    val showToAllReviewsButton: Boolean = false,
 )
 
 @Immutable

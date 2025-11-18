@@ -1,13 +1,6 @@
 package com.coursework.featureBookDetails.common.viewState
 
 import androidx.compose.runtime.Immutable
-import com.coursework.corePresentation.viewState.DataLoadingState
-
-@Immutable
-data class RatingDistributionBlockViewState(
-    val ratingDistribution: RatingDistributionViewState = RatingDistributionViewState(),
-    val dataLoadingState: DataLoadingState = DataLoadingState.Loading,
-)
 
 @Immutable
 data class RatingDistributionViewState(

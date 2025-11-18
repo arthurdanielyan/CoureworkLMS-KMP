@@ -10,6 +10,7 @@ class GetBookReviewsUseCase(
 
     data class Params(
         val bookId: Long,
+        val filterId: Int? = null,
         val pagingLimit: PagingLimit,
     )
 

@@ -2,22 +2,20 @@ package com.coursework.featureSearchBooks.booksList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.coursework.corePresentation.navigation.AppRouter
-import com.coursework.corePresentation.navigation.destinations.BookDetailsDestination
 import com.coursework.corePresentation.navigation.destinations.EditBookDestination
 import com.coursework.corePresentation.navigation.destinations.LoginDestination
 import com.coursework.corePresentation.viewState.books.BookViewState
 import com.coursework.corePresentation.viewState.books.mapper.BookViewStateMapper
+import com.coursework.corePresentation.viewState.emptyPagingData
 import com.coursework.domain.books.model.SearchFilters
 import com.coursework.domain.user.model.UserType
 import com.coursework.domain.user.usecases.GetUserTypeUseCase
+import com.coursework.featureBookDetails.common.BookDetailsDestination
 import com.coursework.featureSearchBooks.booksList.viewState.BooksListViewState
 import com.coursework.featureSearchBooks.searchFilters.SearchFiltersDestination
 import com.coursework.utils.stateInWhileSubscribed
@@ -75,13 +73,7 @@ internal class BooksListViewModel(
             }
         }.stateInWhileSubscribed(
             viewModelScope,
-            PagingData.empty(
-                sourceLoadStates = LoadStates(
-                    refresh = LoadState.Loading,
-                    prepend = LoadState.NotLoading(endOfPaginationReached = true),
-                    append = LoadState.Loading,
-                )
-            )
+            emptyPagingData()
         )
 
     val uiState = combine(
@@ -121,7 +113,8 @@ internal class BooksListViewModel(
     override fun onBookClick(book: BookViewState) {
         appRouter.navigate(
             BookDetailsDestination(
-                id = book.id
+                id = book.id,
+                bookTitle = book.title,
             )
         )
     }

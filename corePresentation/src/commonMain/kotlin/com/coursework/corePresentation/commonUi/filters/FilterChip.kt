@@ -16,19 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun FilterChip(
     filter: FilterViewState,
     onSelect: () -> Unit,
-    leadingIconResId: DrawableResource? = null,
 ) {
     BaseChip(
         text = filter.displayName.get(),
         onClick = onSelect,
         isSelected = filter.isSelected,
-        leadingIconResId = leadingIconResId,
+        leadingIconResId = filter.leadingIconResId,
     )
 }
 
@@ -76,7 +75,7 @@ private fun BaseChip(
     ) {
         if (leadingIconResId != null) {
             Icon(
-                painter = painterResource(leadingIconResId),
+                imageVector = vectorResource(leadingIconResId),
                 contentDescription = null,
                 tint = if (isSelected) {
                     MaterialTheme.colorScheme.onSecondaryContainer

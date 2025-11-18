@@ -87,6 +87,7 @@ kotlin {
                 api(libs.coil.network.ktor)
 
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.paging.compose)
 
                 implementation(projects.utils)
                 implementation(projects.domain)

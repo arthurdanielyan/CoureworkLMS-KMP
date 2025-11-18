@@ -3,12 +3,12 @@ package com.coursework.featureBookDetails.detailsScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.navigation.AppRouter
-import com.coursework.corePresentation.navigation.destinations.BookDetailsDestination
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
 import com.coursework.corePresentation.viewState.getErrorMessage
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.corePresentation.viewState.toDataLoadingState
+import com.coursework.corePresentation.viewState.zipLoadingStates
 import com.coursework.domain.bookDetails.model.BookDetails
 import com.coursework.domain.bookDetails.usecases.GetBookDetailsUseCase
 import com.coursework.domain.bookDetails.usecases.GetBookRatingDistribution
@@ -17,8 +17,10 @@ import com.coursework.domain.bookDetails.usecases.GetMaxReservationDate
 import com.coursework.domain.bookDetails.usecases.ReserveBookUseCase
 import com.coursework.domain.books.model.PagingLimit
 import com.coursework.domain.books.usecases.DownloadPdfUseCase
+import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.common.BookReviewsDestination
 import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
-import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 import com.coursework.featureBookDetails.detailsScreen.mapper.BookDetailsViewStateMapper
 import com.coursework.featureBookDetails.detailsScreen.mapper.BookReviewViewStateMapper
 import com.coursework.featureBookDetails.detailsScreen.mapper.RatingDistributionViewStateMapper
@@ -62,10 +64,16 @@ internal class BookDetailsViewModel(
 
     private var bookDetails: BookDetails? = null
 
-    private val dataLoadingState = MutableStateFlow(DataLoadingState.Loading)
+    private val detailsLoadingState = MutableStateFlow(DataLoadingState.Loading)
+    private val ratingDistributionLoadingState = MutableStateFlow(DataLoadingState.Loading)
+
+    private val dataLoadingState = zipLoadingStates(
+        detailsLoadingState,
+        ratingDistributionLoadingState,
+    )
     private val bookDetailsState = MutableStateFlow<BookDetailsViewState?>(null)
     private val isReserveButtonLoading = MutableStateFlow(false)
-    private val ratingDistribution = MutableStateFlow(RatingDistributionBlockViewState())
+    private val ratingDistribution = MutableStateFlow(RatingDistributionViewState())
     private val topReviews = MutableStateFlow<List<BookReviewViewState>>(emptyList())
     private val showToAllReviewsButton = MutableStateFlow(false)
 
@@ -93,6 +101,7 @@ internal class BookDetailsViewModel(
         showToAllReviewsButton ->
 
         BookDetailsScreenViewState(
+            screenTitleWhileLoading = destination.bookTitle,
             dataLoadingState = dataLoadingState,
             bookDetails = bookDetails?.copy(
                 isReserveButtonLoading = isReserveButtonLoading,
@@ -114,17 +123,17 @@ internal class BookDetailsViewModel(
         viewModelScope.launch {
             refreshEvent
                 .collectLatest {
-                    dataLoadingState.update { DataLoadingState.Loading }
+                    detailsLoadingState.update { DataLoadingState.Loading }
                     getBookDetailsUseCase(destination.id)
                         .onSuccess { result ->
                             bookDetails = result
-                            dataLoadingState.value = DataLoadingState.Success
+                            detailsLoadingState.update { DataLoadingState.Success }
                             bookDetailsState.update {
                                 bookDetailsViewStateMapper.map(result)
                             }
                         }
                         .onFailure { throwable ->
-                            dataLoadingState.update { throwable.toDataLoadingState() }
+                            detailsLoadingState.update { throwable.toDataLoadingState() }
                         }
                 }
         }
@@ -137,27 +146,19 @@ internal class BookDetailsViewModel(
         ) { _, reviewsExist ->
             if (reviewsExist.not()) {
                 ratingDistribution.update {
-                    RatingDistributionBlockViewState()
+                    RatingDistributionViewState()
                 }
                 return@combine
             }
             getBookRatingDistribution(destination.id)
                 .onSuccess { result ->
                     ratingDistribution.update {
-                        RatingDistributionBlockViewState(
-                            ratingDistribution = ratingDistributionViewStateMapper.map(
-                                result
-                            ),
-                            dataLoadingState = DataLoadingState.Success
-                        )
+                        ratingDistributionViewStateMapper.map(result)
                     }
+                    ratingDistributionLoadingState.update { DataLoadingState.Success }
                 }
                 .onFailure { throwable ->
-                    ratingDistribution.update {
-                        RatingDistributionBlockViewState(
-                            dataLoadingState = throwable.toDataLoadingState()
-                        )
-                    }
+                    ratingDistributionLoadingState.update { throwable.toDataLoadingState() }
                 }
         }.launchIn(viewModelScope)
     }
@@ -192,7 +193,9 @@ internal class BookDetailsViewModel(
     }
 
     override fun onToReviewsClick() {
-//        appRouter.navigate()
+        appRouter.navigate(
+            destination = BookReviewsDestination,
+        )
     }
 
     @OptIn(ExperimentalTime::class)

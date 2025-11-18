@@ -12,17 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,14 +35,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.coursework.corePresentation.commonUi.ContentWithFab
 import com.coursework.corePresentation.commonUi.IconButton
 import com.coursework.corePresentation.commonUi.LoadingStatePresenter
-import com.coursework.corePresentation.commonUi.PrimaryButton
-import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.pagingBottomContent
 import com.coursework.corePresentation.extensions.ComposeCollect
-import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.books.BookViewState
-import com.coursework.corePresentation.viewState.getErrorMessage
-import com.coursework.corePresentation.viewState.toDataLoadingState
+import com.coursework.corePresentation.viewState.initialDataLoadingState
 import com.coursework.featureSearchBooks.booksList.BooksListUiCallbacks
 import com.coursework.featureSearchBooks.booksList.BooksListViewModel
 import com.coursework.featureSearchBooks.booksList.viewState.BooksListViewState
@@ -54,7 +47,6 @@ import com.coursework.featureSearchBooks.shared.SearchBooksSharedViewModel
 import commonResources.ic_add
 import commonResources.ic_close
 import commonResources.ic_more
-import commonResources.retry
 import lms.featuresearchbooks.generated.resources.ic_logout
 import lms.featuresearchbooks.generated.resources.ic_options
 import lms.featuresearchbooks.generated.resources.logout
@@ -64,7 +56,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import commonResources.Res.drawable as CoreDrawables
-import commonResources.Res.string as CoreStrings
 import lms.featuresearchbooks.generated.resources.Res.drawable as Drawables
 import lms.featuresearchbooks.generated.resources.Res.string as Strings
 
@@ -254,37 +245,10 @@ private fun BooksList(
                 )
             }
 
-            booksListBottomContent(
-                booksPagingItems = booksPagingItems
+            pagingBottomContent(
+                pagingItems = booksPagingItems
             )
         }
-    }
-}
-
-private fun LazyListScope.booksListBottomContent(
-    booksPagingItems: LazyPagingItems<BookViewState>
-) {
-    when (val loadState = booksPagingItems.loadState.append) {
-        is LoadState.Loading ->
-            item {
-                CircularProgressIndicator()
-            }
-
-        is LoadState.Error ->
-            item {
-                Text(
-                    text = getErrorMessage(loadState.error).get(),
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                SpacerHeight(16.dp)
-                PrimaryButton(
-                    text = stringResource(CoreStrings.retry),
-                    onClick = booksPagingItems::retry
-                )
-            }
-
-        else -> Unit
     }
 }
 
@@ -300,18 +264,5 @@ private fun NoBooksFoundView() {
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.headlineLarge,
         )
-    }
-}
-
-@Composable
-fun <T : Any> LazyPagingItems<T>.initialDataLoadingState(): State<DataLoadingState> {
-    return remember {
-        derivedStateOf {
-            when (loadState.refresh) {
-                is LoadState.Loading -> DataLoadingState.Loading
-                is LoadState.Error -> (loadState.refresh as LoadState.Error).error.toDataLoadingState()
-                else -> DataLoadingState.Success
-            }
-        }
     }
 }

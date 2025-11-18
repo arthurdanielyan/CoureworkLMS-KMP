@@ -8,6 +8,7 @@ import com.coursework.domain.books.model.PagingLimit
 
 class BookReviewsPagingSource(
     private val bookId: Long,
+    private val filterId: Int,
     private val getBookReviewsUseCase: GetBookReviewsUseCase,
 ) : PagingSource<Int, BookReview>() {
 
@@ -18,6 +19,7 @@ class BookReviewsPagingSource(
         val result = getBookReviewsUseCase(
             GetBookReviewsUseCase.Params(
                 bookId = bookId,
+                filterId = filterId,
                 pagingLimit = PagingLimit(
                     offset = offset,
                     limit = limit,
@@ -47,10 +49,12 @@ class BookReviewsPagingSource(
         private val getBookReviewsUseCase: GetBookReviewsUseCase
     ) {
         operator fun invoke(
-            bookId: Long
+            bookId: Long,
+            filterId: Int,
         ): BookReviewsPagingSource {
             return BookReviewsPagingSource(
                 bookId = bookId,
+                filterId = filterId,
                 getBookReviewsUseCase = getBookReviewsUseCase,
             )
         }

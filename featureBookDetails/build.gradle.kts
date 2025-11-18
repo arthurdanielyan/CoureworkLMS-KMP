@@ -52,6 +52,7 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.paging.compose)
+                implementation(libs.navigation.compose)
 
                 implementation(projects.corePresentation)
                 implementation(projects.utils)

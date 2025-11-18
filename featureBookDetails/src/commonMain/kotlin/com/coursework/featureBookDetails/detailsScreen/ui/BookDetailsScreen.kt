@@ -37,8 +37,9 @@ import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.topBar.ContentWithTopBarHeader
 import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
-import com.coursework.corePresentation.navigation.destinations.BookDetailsDestination
+import com.coursework.corePresentation.extensions.plus
 import com.coursework.corePresentation.viewState.DataLoadingState
+import com.coursework.featureBookDetails.common.BookDetailsDestination
 import com.coursework.featureBookDetails.detailsScreen.BookDetailsUiCallbacks
 import com.coursework.featureBookDetails.detailsScreen.BookDetailsViewModel
 import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsScreenViewState
@@ -49,7 +50,6 @@ import commonResources.language
 import lms.featurebookdetails.generated.resources.authors
 import lms.featurebookdetails.generated.resources.available_copies
 import lms.featurebookdetails.generated.resources.book_cover_placeholder
-import lms.featurebookdetails.generated.resources.book_details
 import lms.featurebookdetails.generated.resources.download_pdf
 import lms.featurebookdetails.generated.resources.edition
 import lms.featurebookdetails.generated.resources.no_available_copies
@@ -107,7 +107,7 @@ private fun BookDetailsScreen(
         if (state.dataLoadingState != DataLoadingState.Success) {
             TopBarWithBackButton(
                 modifier = Modifier.fillMaxWidth(),
-                title = stringResource(Strings.book_details),
+                title = state.screenTitleWhileLoading,
                 onBackClick = callbacks::onBackClick,
             )
         }
@@ -138,10 +138,8 @@ private fun BookDetailsContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface),
         title = state.bookDetails.title,
-        contentPadding = PaddingValues(
-            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-                    + 16.dp
-        ),
+        contentPadding = WindowInsets.navigationBars.asPaddingValues() +
+                PaddingValues(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         onBackClick = callbacks::onBackClick,
         header = {
@@ -174,7 +172,7 @@ private fun LazyListScope.bookDetailsContent(
         item("action_buttons") {
             ActionButtons(
                 onDownloadPdfClick = onDownloadPdfClick,
-                showReserveButton = bookDetails.isReferenceOnly.not(),
+                showReserveButton = bookDetails.showBookButton,
                 onReserveBookClick = onReserveBookClick
             )
         }

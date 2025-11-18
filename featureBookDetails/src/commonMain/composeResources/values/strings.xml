@@ -17,6 +17,9 @@
     <string name="confirm">Confirm</string>
     <string name="ok">OK</string>
     <string name="no_reviews">No reviews yet</string>
-    <string name="rating_reviews">Ratings and reviews</string>
+    <string name="rating_reviews">Rating and reviews</string>
     <string name="to_reviews">See all reviews</string>
+    <string name="positive">Positive</string>
+    <string name="critical">Critical</string>
+    <string name="all">All</string>
 </resources>

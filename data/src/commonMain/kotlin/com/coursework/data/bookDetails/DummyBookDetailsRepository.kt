@@ -12,6 +12,7 @@ import com.coursework.domain.bookDetails.model.ReserveBook
 import com.coursework.domain.bookDetails.model.reviews.BookRatingDistribution
 import com.coursework.domain.books.model.PagingLimit
 import com.coursework.utils.mapList
+import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 
 class DummyBookDetailsRepository(
@@ -66,6 +67,7 @@ class DummyBookDetailsRepository(
         pagingLimit: PagingLimit
     ): Result<BookReviewPaginationResult> {
         return runCatching {
+            delay(500) // Simulate loading
             BookReviewPaginationResult(
                 reviews = MockData.BookReviews.subList(
                     fromIndex = pagingLimit.offset,

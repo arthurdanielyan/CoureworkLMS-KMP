@@ -11,12 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.coursework.corePresentation.viewState.DataLoadingState
-import commonResources.Res
-import commonResources.unknown_error_message
 import commonResources.network_error_message
 import commonResources.refresh
-import commonResources.Res.string as Strings
+import commonResources.unknown_error_message
 import org.jetbrains.compose.resources.stringResource
+import commonResources.Res.string as Strings
 
 
 @Composable
@@ -68,7 +67,6 @@ private fun DefaultLoadingView(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        Res.string.unknown_error_message
         CircularProgressIndicator()
     }
 }

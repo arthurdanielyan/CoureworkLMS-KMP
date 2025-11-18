@@ -1,9 +1,10 @@
-package com.coursework.corePresentation.navigation.destinations
+package com.coursework.featureBookDetails.common
 
 import com.coursework.corePresentation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class BookDetailsDestination(
-    val id: Long
+    val id: Long,
+    val bookTitle: String,
 ) : Destination

@@ -14,47 +14,50 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
-import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 import lms.featurebookdetails.generated.resources.rating_reviews
 import org.jetbrains.compose.resources.stringResource
 import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @Composable
 internal fun RatingDistributionBlock(
-    ratingDistribution: RatingDistributionBlockViewState,
+    ratingDistribution: RatingDistributionViewState,
+    showTitle: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = stringResource(Strings.rating_reviews),
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleLarge,
-        )
+        if(showTitle) {
+            Text(
+                text = stringResource(Strings.rating_reviews),
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
         RatingLine(
-            percentage = ratingDistribution.ratingDistribution.oneStar,
+            percentage = ratingDistribution.oneStar,
             rating = 1,
             modifier = Modifier.fillMaxWidth(),
         )
         RatingLine(
-            percentage = ratingDistribution.ratingDistribution.twoStars,
+            percentage = ratingDistribution.twoStars,
             rating = 2,
             modifier = Modifier.fillMaxWidth(),
         )
         RatingLine(
-            percentage = ratingDistribution.ratingDistribution.threeStars,
+            percentage = ratingDistribution.threeStars,
             rating = 3,
             modifier = Modifier.fillMaxWidth(),
         )
         RatingLine(
-            percentage = ratingDistribution.ratingDistribution.fourStars,
+            percentage = ratingDistribution.fourStars,
             rating = 4,
             modifier = Modifier.fillMaxWidth(),
         )
         RatingLine(
-            percentage = ratingDistribution.ratingDistribution.fiveStars,
+            percentage = ratingDistribution.fiveStars,
             rating = 5,
             modifier = Modifier.fillMaxWidth(),
         )

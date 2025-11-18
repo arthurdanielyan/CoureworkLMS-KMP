@@ -22,7 +22,7 @@ import com.coursework.corePresentation.viewState.ComposeList
 import com.coursework.featureBookDetails.common.ui.RatingDistributionBlock
 import com.coursework.featureBookDetails.common.ui.ReviewItem
 import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
-import com.coursework.featureBookDetails.common.viewState.RatingDistributionBlockViewState
+import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 import lms.featurebookdetails.generated.resources.ic_next_screen
 import lms.featurebookdetails.generated.resources.to_reviews
 import org.jetbrains.compose.resources.stringResource
@@ -31,7 +31,7 @@ import lms.featurebookdetails.generated.resources.Res.drawable as Drawables
 import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 fun LazyListScope.ratingPart(
-    ratingDistribution: RatingDistributionBlockViewState,
+    ratingDistribution: RatingDistributionViewState,
     topReviews: ComposeList<BookReviewViewState>,
     onToAllReviewsClick: () -> Unit,
 ) {
@@ -44,6 +44,7 @@ fun LazyListScope.ratingPart(
         RatingDistributionBlock(
             modifier = Modifier.padding(horizontal = 16.dp),
             ratingDistribution = ratingDistribution,
+            showTitle = true,
         )
     }
     items(
@@ -51,7 +52,9 @@ fun LazyListScope.ratingPart(
         key = { it.id }
     ) {
         ReviewItem(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             review = it,
         )
     }
