@@ -6,14 +6,14 @@ import lms.featurehome.generated.resources.ic_books
 import lms.featurehome.generated.resources.ic_favourites
 import lms.featurehome.generated.resources.ic_search
 import lms.featurehome.generated.resources.my_books
-import lms.featurehome.generated.resources.Res.string as Strings
-import lms.featurehome.generated.resources.Res.drawable as Drawables
 import lms.featurehome.generated.resources.search
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
+import lms.featurehome.generated.resources.Res.drawable as Drawables
+import lms.featurehome.generated.resources.Res.string as Strings
 
 @Immutable
-sealed interface BottomBarType {
+internal sealed interface BottomBarType {
 
     val items: List<BottomBarItemViewState>
 
@@ -32,7 +32,7 @@ sealed interface BottomBarType {
     }
 }
 
-enum class BottomBarItemViewState(
+internal enum class BottomBarItemViewState(
     val titleKey: StringResource,
     val icon: DrawableResource,
 ) {

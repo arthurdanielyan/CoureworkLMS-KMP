@@ -38,7 +38,7 @@ internal data class EditBookDetailsViewState(
 }
 
 @Immutable
-data class BookPdfViewState(
+internal data class BookPdfViewState(
     val pdfUrl: String? = null,
     val localFileSelected: Boolean = false,
     val displayName: String = "",
@@ -47,7 +47,7 @@ data class BookPdfViewState(
 }
 
 @Immutable
-data class CoverImageViewState(
+internal data class CoverImageViewState(
     val url: String? = null,
     val localUri: String? = null,
 ) {

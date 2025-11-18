@@ -8,7 +8,7 @@ import com.coursework.corePresentation.viewState.StringValue
 import com.coursework.corePresentation.viewState.emptyComposeList
 
 @Immutable
-data class SearchFiltersViewState(
+internal data class SearchFiltersViewState(
     val authorInput: String = "",
     val publicationYearInput: String = "",
     val topCategories: ComposeList<FilterViewState> = emptyComposeList(),

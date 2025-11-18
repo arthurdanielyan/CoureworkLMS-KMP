@@ -30,7 +30,7 @@ import org.jetbrains.compose.resources.vectorResource
 import lms.featurebookdetails.generated.resources.Res.drawable as Drawables
 import lms.featurebookdetails.generated.resources.Res.string as Strings
 
-fun LazyListScope.ratingPart(
+internal fun LazyListScope.ratingPart(
     ratingDistribution: RatingDistributionViewState,
     topReviews: ComposeList<BookReviewViewState>,
     onToAllReviewsClick: () -> Unit,

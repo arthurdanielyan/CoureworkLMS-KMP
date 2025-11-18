@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+internal class HomeViewModel(
     private val getUserTypeUseCase: GetUserTypeUseCase,
     private val appRouter: AppRouter
 ) : ViewModel(), HomeUiCallbacks {

@@ -43,7 +43,7 @@ internal data class BookDetailsViewState(
 }
 
 @Immutable
-sealed interface BookDetailsDialogState {
+internal sealed interface BookDetailsDialogState {
 
     data class ReturnDatePickerDialog(
         val maxDateMillis: Long = Long.MAX_VALUE,

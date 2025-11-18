@@ -14,7 +14,7 @@ import com.coursework.corePresentation.viewState.emptyPagingData
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.domain.bookDetails.usecases.GetBookRatingDistribution
-import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 import com.coursework.featureBookDetails.detailsScreen.mapper.BookReviewViewStateMapper
 import com.coursework.featureBookDetails.detailsScreen.mapper.RatingDistributionViewStateMapper
@@ -37,7 +37,7 @@ import commonResources.Res.drawable as CoreDrawables
 import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class BookReviewsViewModel(
+internal class BookReviewsViewModel(
     private val destination: BookDetailsDestination,
     private val appRouter: AppRouter,
     private val bookReviewsPagingSourceFactory: BookReviewsPagingSource.Factory,

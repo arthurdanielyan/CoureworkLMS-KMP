@@ -50,5 +50,3 @@ internal fun RowScope.BottomBarItem(
         }
     )
 }
-
-internal val BottomBarHeight = 80.dp

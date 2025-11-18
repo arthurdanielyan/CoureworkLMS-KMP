@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.coursework.corePresentation.commonUi.filters.FilterViewState
 
 @Immutable
-interface BookReviewsUiCallbacks {
+internal interface BookReviewsUiCallbacks {
 
     fun onSelectReviewFilter(filter: FilterViewState)
     fun onBackClick()

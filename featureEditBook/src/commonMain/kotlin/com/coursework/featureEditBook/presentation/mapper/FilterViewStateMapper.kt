@@ -6,7 +6,7 @@ import com.coursework.domain.bookDetails.model.NamedItem
 import com.coursework.featureEditBook.presentation.mapper.FilterViewStateMapper.Params
 import com.coursework.utils.ParameterizedMapper
 
-class FilterViewStateMapper : ParameterizedMapper<NamedItem, Params, FilterViewState> {
+internal class FilterViewStateMapper : ParameterizedMapper<NamedItem, Params, FilterViewState> {
 
     data class Params(
         val isSelected: Boolean,

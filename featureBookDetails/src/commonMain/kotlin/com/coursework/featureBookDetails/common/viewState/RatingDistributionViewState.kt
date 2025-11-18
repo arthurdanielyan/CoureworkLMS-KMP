@@ -3,7 +3,7 @@ package com.coursework.featureBookDetails.common.viewState
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class RatingDistributionViewState(
+internal data class RatingDistributionViewState(
     val oneStar: Float = 0f,
     val twoStars: Float = 0f,
     val threeStars: Float = 0f,

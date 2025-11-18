@@ -3,13 +3,13 @@ package com.coursework.featureLogin.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.navigation.AppRouter
-import com.coursework.corePresentation.navigation.destinations.HomeScreenDestination
-import com.coursework.corePresentation.navigation.destinations.LoginDestination
+import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.featureHome.HomeScreenDestination
+import com.coursework.utils.stateInWhileSubscribed
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
-import com.coursework.utils.stateInWhileSubscribed
 import lms.featurelogin.generated.resources.invalid_email_message
 import lms.featurelogin.generated.resources.Res.string as Strings
 

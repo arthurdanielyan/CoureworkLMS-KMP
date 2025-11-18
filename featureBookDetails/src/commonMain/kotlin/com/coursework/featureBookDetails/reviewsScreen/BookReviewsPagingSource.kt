@@ -6,7 +6,7 @@ import com.coursework.domain.bookDetails.model.reviews.BookReview
 import com.coursework.domain.bookDetails.usecases.GetBookReviewsUseCase
 import com.coursework.domain.books.model.PagingLimit
 
-class BookReviewsPagingSource(
+internal class BookReviewsPagingSource(
     private val bookId: Long,
     private val filterId: Int,
     private val getBookReviewsUseCase: GetBookReviewsUseCase,

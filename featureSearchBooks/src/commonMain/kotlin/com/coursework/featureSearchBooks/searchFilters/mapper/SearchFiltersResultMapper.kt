@@ -5,7 +5,7 @@ import com.coursework.domain.books.model.SearchFilters
 import com.coursework.featureSearchBooks.searchFilters.viewState.SearchFiltersViewState
 import com.coursework.utils.Mapper
 
-class SearchFiltersResultMapper : Mapper<SearchFiltersViewState, SearchFilters> {
+internal class SearchFiltersResultMapper : Mapper<SearchFiltersViewState, SearchFilters> {
 
     override fun map(from: SearchFiltersViewState): SearchFilters {
         return SearchFilters(

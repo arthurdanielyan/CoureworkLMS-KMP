@@ -1,7 +1,7 @@
-package com.coursework.corePresentation.navigation.destinations
+package com.coursework.featureHome
 
 import com.coursework.corePresentation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable
-object LoginDestination : Destination
+object HomeScreenDestination : Destination

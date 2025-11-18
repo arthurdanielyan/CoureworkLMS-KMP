@@ -4,7 +4,7 @@ import com.coursework.domain.bookDetails.model.reviews.BookRatingDistribution
 import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 import com.coursework.utils.Mapper
 
-class RatingDistributionViewStateMapper :
+internal class RatingDistributionViewStateMapper :
     Mapper<BookRatingDistribution, RatingDistributionViewState> {
 
     override fun map(from: BookRatingDistribution): RatingDistributionViewState {

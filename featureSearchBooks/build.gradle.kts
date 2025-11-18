@@ -69,6 +69,7 @@ kotlin {
                 implementation(projects.domain)
                 implementation(projects.corePresentation)
                 implementation(projects.featureBookDetails)
+                implementation(projects.featureEditBook)
             }
         }
 

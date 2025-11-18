@@ -1,4 +1,4 @@
-package com.coursework.corePresentation.navigation.destinations
+package com.coursework.featureEditBook
 
 import com.coursework.corePresentation.Destination
 import kotlinx.serialization.Serializable

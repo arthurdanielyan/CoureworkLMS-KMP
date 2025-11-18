@@ -5,7 +5,7 @@ import com.coursework.corePresentation.commonUi.filters.FilterViewState
 import com.coursework.domain.books.model.SearchFilters
 
 @Immutable
-interface SearchFiltersUiCallbacks {
+internal interface SearchFiltersUiCallbacks {
 
     fun emitInitialFilters(filters: SearchFilters)
     fun onResultSent()

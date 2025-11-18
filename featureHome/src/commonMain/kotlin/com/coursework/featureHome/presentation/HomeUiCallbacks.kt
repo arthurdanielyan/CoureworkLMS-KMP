@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.coursework.featureHome.presentation.viewState.BottomBarItemViewState
 
 @Immutable
-interface HomeUiCallbacks {
+internal interface HomeUiCallbacks {
 
     fun onBottomTabSelected(item: BottomBarItemViewState)
     fun onBackClick()

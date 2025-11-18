@@ -63,6 +63,7 @@ kotlin {
 
                 implementation(projects.corePresentation)
                 implementation(projects.utils)
+                implementation(projects.featureHome)
             }
         }
     }

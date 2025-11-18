@@ -25,7 +25,7 @@ import lms.featuresearchbooks.generated.resources.unavailable
 import commonResources.Res.string as CoreStrings
 import lms.featuresearchbooks.generated.resources.Res.string as Strings
 
-class SearchFiltersViewModel(
+internal class SearchFiltersViewModel(
     private val getCategories: GetCategories,
     private val getLanguages: GetLanguages,
     private val getTeachers: GetTeachers,

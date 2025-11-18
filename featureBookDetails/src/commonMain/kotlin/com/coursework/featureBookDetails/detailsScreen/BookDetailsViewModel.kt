@@ -17,7 +17,7 @@ import com.coursework.domain.bookDetails.usecases.GetMaxReservationDate
 import com.coursework.domain.bookDetails.usecases.ReserveBookUseCase
 import com.coursework.domain.books.model.PagingLimit
 import com.coursework.domain.books.usecases.DownloadPdfUseCase
-import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.BookReviewsDestination
 import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
 import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState

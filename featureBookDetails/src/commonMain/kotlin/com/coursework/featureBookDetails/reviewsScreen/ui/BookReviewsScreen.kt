@@ -29,7 +29,7 @@ import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
 import com.coursework.corePresentation.extensions.plus
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.initialDataLoadingState
-import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.ui.RatingDistributionBlock
 import com.coursework.featureBookDetails.common.ui.ReviewItem
 import com.coursework.featureBookDetails.common.viewState.BookReviewViewState
@@ -43,7 +43,7 @@ import org.koin.core.parameter.parametersOf
 import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @Composable
-fun BookReviewsScreen(
+internal fun BookReviewsScreen(
     bookDetailsDestination: BookDetailsDestination
 ) {
     val viewModel = koinViewModel<BookReviewsViewModel>(

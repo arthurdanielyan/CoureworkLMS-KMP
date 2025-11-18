@@ -6,12 +6,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.coursework.corePresentation.Destination
 import com.coursework.corePresentation.navigation.AppRouter
+import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.corePresentation.navigation.NavControllersHolder
-import com.coursework.corePresentation.navigation.destinations.EditBookDestination
-import com.coursework.corePresentation.navigation.destinations.HomeScreenDestination
-import com.coursework.corePresentation.navigation.destinations.LoginDestination
-import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.BookReviewsDestination
+import com.coursework.featureEditBook.EditBookDestination
+import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureHome.ui.DummyScreenDestination
 import com.coursework.featureHome.ui.HomeNavigationKey
 import com.coursework.featureSearchBooks.searchFilters.SearchFiltersDestination

@@ -1,4 +1,4 @@
-package com.coursework.featureBookDetails.common
+package com.coursework.featureBookDetails
 
 import com.coursework.corePresentation.Destination
 import kotlinx.serialization.Serializable

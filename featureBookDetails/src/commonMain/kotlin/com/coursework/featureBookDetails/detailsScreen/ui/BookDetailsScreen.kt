@@ -39,7 +39,7 @@ import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
 import com.coursework.corePresentation.extensions.plus
 import com.coursework.corePresentation.viewState.DataLoadingState
-import com.coursework.featureBookDetails.common.BookDetailsDestination
+import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.detailsScreen.BookDetailsUiCallbacks
 import com.coursework.featureBookDetails.detailsScreen.BookDetailsViewModel
 import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsScreenViewState
@@ -68,7 +68,7 @@ import lms.featurebookdetails.generated.resources.Res.string as Strings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsScreen(
+internal fun BookDetailsScreen(
     destination: BookDetailsDestination
 ) {
     val viewModel = koinViewModel<BookDetailsViewModel>(

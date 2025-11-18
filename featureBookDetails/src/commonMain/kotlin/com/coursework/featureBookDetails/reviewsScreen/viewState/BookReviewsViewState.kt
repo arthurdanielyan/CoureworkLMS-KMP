@@ -8,7 +8,7 @@ import com.coursework.corePresentation.viewState.emptyComposeList
 import com.coursework.featureBookDetails.common.viewState.RatingDistributionViewState
 
 @Immutable
-data class BookReviewsViewState(
+internal data class BookReviewsViewState(
     val ratingDistribution: RatingDistributionViewState = RatingDistributionViewState(),
     val reviewFilters: ComposeList<FilterViewState> = emptyComposeList(),
     val ratingDistributionLoadingState: DataLoadingState = DataLoadingState.Loading,

@@ -7,7 +7,7 @@ import com.coursework.domain.books.model.SearchFilters
 import com.coursework.domain.books.model.books.Book
 import com.coursework.domain.books.usecases.GetBooksUseCase
 
-class BooksPagingSource(
+internal class BooksPagingSource(
     private val query: String,
     private val filters: SearchFilters,
     private val getBooksUseCase: GetBooksUseCase,
