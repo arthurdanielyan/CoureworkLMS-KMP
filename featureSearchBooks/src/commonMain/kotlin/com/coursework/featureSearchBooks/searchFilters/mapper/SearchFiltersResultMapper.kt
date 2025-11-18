@@ -9,7 +9,7 @@ class SearchFiltersResultMapper : Mapper<SearchFiltersViewState, SearchFilters> 
 
     override fun map(from: SearchFiltersViewState): SearchFilters {
         return SearchFilters(
-            author = from.authorInput,
+            author = from.authorInput.takeIf { it.isNotBlank() },
             publicationYear = from.publicationYearInput.toIntOrNull(),
             selectedCategoryIds = mapFilterViewStates(from.topCategories),
             selectedLanguageIds = mapFilterViewStates(from.topLanguages),
