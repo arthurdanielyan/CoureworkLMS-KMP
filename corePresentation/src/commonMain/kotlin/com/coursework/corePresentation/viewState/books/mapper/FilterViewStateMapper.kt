@@ -1,12 +1,12 @@
-package com.coursework.featureEditBook.presentation.mapper
+package com.coursework.corePresentation.viewState.books.mapper
 
 import com.coursework.corePresentation.commonUi.filters.FilterViewState
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.corePresentation.viewState.books.mapper.FilterViewStateMapper.Params
 import com.coursework.domain.bookDetails.model.NamedItem
-import com.coursework.featureEditBook.presentation.mapper.FilterViewStateMapper.Params
 import com.coursework.utils.ParameterizedMapper
 
-internal class FilterViewStateMapper : ParameterizedMapper<NamedItem, Params, FilterViewState> {
+class FilterViewStateMapper : ParameterizedMapper<NamedItem, Params, FilterViewState> {
 
     data class Params(
         val isSelected: Boolean,

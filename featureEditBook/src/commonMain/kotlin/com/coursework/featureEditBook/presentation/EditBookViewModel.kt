@@ -7,6 +7,7 @@ import com.coursework.corePresentation.externalActivityLauncher.ExternalActivity
 import com.coursework.corePresentation.navigation.AppRouter
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.corePresentation.viewState.books.mapper.FilterViewStateMapper
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.domain.bookDetails.usecases.GetBookDetailsUseCase
@@ -14,7 +15,6 @@ import com.coursework.domain.bookDetails.usecases.GetCategories
 import com.coursework.domain.bookDetails.usecases.GetLanguages
 import com.coursework.featureEditBook.EditBookDestination
 import com.coursework.featureEditBook.presentation.mapper.EditBookViewStateMapper
-import com.coursework.featureEditBook.presentation.mapper.FilterViewStateMapper
 import com.coursework.featureEditBook.presentation.viewState.BookPdfViewState
 import com.coursework.featureEditBook.presentation.viewState.CoverImageViewState
 import com.coursework.featureEditBook.presentation.viewState.EditBookDetailsViewState

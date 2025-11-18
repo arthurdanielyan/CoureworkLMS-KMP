@@ -390,26 +390,30 @@ object MockData {
     val Teachers = listOf(
         NamedItemResponse(
             id = 1,
-            displayName = "E. Hovhannisyan",
+            displayName = "University",
         ),
         NamedItemResponse(
             id = 2,
-            displayName = "T. Ganovich",
+            displayName = "E. Hovhannisyan",
         ),
         NamedItemResponse(
             id = 3,
-            displayName = "Tomeyan",
+            displayName = "T. Ganovich",
         ),
         NamedItemResponse(
             id = 4,
-            displayName = "A. Baghdasaryan",
+            displayName = "Tomeyan",
         ),
         NamedItemResponse(
             id = 5,
-            displayName = "L. Andreasyan",
+            displayName = "A. Baghdasaryan",
         ),
         NamedItemResponse(
             id = 6,
+            displayName = "L. Andreasyan",
+        ),
+        NamedItemResponse(
+            id = 7,
             displayName = "E. Virabyan",
         ),
     )

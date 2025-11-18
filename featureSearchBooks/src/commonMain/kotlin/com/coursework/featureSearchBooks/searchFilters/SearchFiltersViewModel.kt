@@ -6,7 +6,9 @@ import com.coursework.corePresentation.commonUi.filters.FilterViewState
 import com.coursework.corePresentation.navigation.AppRouter
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.corePresentation.viewState.books.mapper.FilterViewStateMapper
 import com.coursework.corePresentation.viewState.toComposeList
+import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.domain.bookDetails.usecases.GetCategories
 import com.coursework.domain.bookDetails.usecases.GetLanguages
 import com.coursework.domain.bookDetails.usecases.GetTeachers
@@ -14,12 +16,15 @@ import com.coursework.domain.books.model.SearchFilters
 import com.coursework.featureSearchBooks.searchFilters.mapper.SearchFiltersResultMapper
 import com.coursework.featureSearchBooks.searchFilters.viewState.SearchFiltersViewState
 import com.coursework.utils.combine
+import com.coursework.utils.mapList
 import com.coursework.utils.stateInWhileSubscribed
 import commonResources.reference_only
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import lms.featuresearchbooks.generated.resources.available
 import lms.featuresearchbooks.generated.resources.unavailable
 import commonResources.Res.string as CoreStrings
@@ -29,6 +34,7 @@ internal class SearchFiltersViewModel(
     private val getCategories: GetCategories,
     private val getLanguages: GetLanguages,
     private val getTeachers: GetTeachers,
+    private val filterViewStateMapper: FilterViewStateMapper,
     private val searchFiltersResultMapper: SearchFiltersResultMapper,
     private val appRouter: AppRouter,
 ) : ViewModel(), SearchFiltersUiCallbacks {
@@ -39,15 +45,17 @@ internal class SearchFiltersViewModel(
         const val REFERENCE_ONLY_FILTER_ID = 3
     }
 
+    private val initialFilters = MutableStateFlow<SearchFilters?>(null)
+
     private val _uiEffects = Channel<SearchFiltersUiEffect>(Channel.BUFFERED)
     val uiEffects = _uiEffects.receiveAsFlow()
 
     private val authorInput = MutableStateFlow("")
     private val publicationYearInput = MutableStateFlow("")
-    private val topCategories = MutableStateFlow(SearchFiltersViewState.MockCategories)
-    private val topLanguages = MutableStateFlow(SearchFiltersViewState.MockLanguages)
+    private val topCategories = MutableStateFlow<List<FilterViewState>>(emptyList())
+    private val topLanguages = MutableStateFlow<List<FilterViewState>>(emptyList())
     private val availabilities = MutableStateFlow(getAvailabilityFilters())
-    private val topTeachers = MutableStateFlow(SearchFiltersViewState.MockTeachers)
+    private val topTeachers = MutableStateFlow<List<FilterViewState>>(emptyList())
     private val dataLoadingState = MutableStateFlow(DataLoadingState.Loading)
 
     val uiState = combine(
@@ -77,6 +85,64 @@ internal class SearchFiltersViewModel(
         )
     }.stateInWhileSubscribed(viewModelScope, SearchFiltersViewState())
 
+    init {
+        getFilters()
+    }
+
+    private fun getFilters() {
+        viewModelScope.launch {
+            val selectedFilters = initialFilters.first {
+                it != null
+            }
+            authorInput.update { selectedFilters?.author.orEmpty() }
+            publicationYearInput.update { selectedFilters?.publicationYear?.toString().orEmpty() }
+            runCatching {
+                topCategories.update {
+                    filterViewStateMapper.mapList(
+                        list = getCategories().getOrThrow(),
+                        params = { namedItem ->
+                            FilterViewStateMapper.Params(
+                                isSelected = selectedFilters
+                                    ?.selectedCategoryIds
+                                    ?.contains(namedItem.id) == true
+                            )
+                        }
+                    )
+                }
+                topLanguages.update {
+                    filterViewStateMapper.mapList(
+                        list = getLanguages().getOrThrow(),
+                        params = { namedItem ->
+                            FilterViewStateMapper.Params(
+                                isSelected = selectedFilters
+                                    ?.selectedLanguageIds
+                                    ?.contains(namedItem.id) == true
+                            )
+                        }
+                    )
+                }
+                topTeachers.update {
+                    filterViewStateMapper.mapList(
+                        list = getTeachers().getOrThrow(),
+                        params = { namedItem ->
+                            FilterViewStateMapper.Params(
+                                isSelected = selectedFilters
+                                    ?.selectedTeacherIds
+                                    ?.contains(namedItem.id) == true
+                            )
+                        }
+                    )
+                }
+            }.onSuccess {
+                dataLoadingState.update {
+                    DataLoadingState.Success
+                }
+            }.onFailure { throwable ->
+                dataLoadingState.update { throwable.toDataLoadingState() }
+            }
+        }
+    }
+
     private fun getAvailabilityFilters(): List<FilterViewState> {
         return listOf(
             FilterViewState(
@@ -97,24 +163,8 @@ internal class SearchFiltersViewModel(
         )
     }
 
-    private fun List<FilterViewState>.toggleSelectedStates(
-        selectedIds: List<Int>
-    ): List<FilterViewState> {
-        return map { filterViewState ->
-            if (selectedIds.contains(filterViewState.id)) {
-                filterViewState.copy(isSelected = true)
-            } else {
-                filterViewState
-            }
-        }
-    }
-
     override fun emitInitialFilters(filters: SearchFilters) {
-        authorInput.update { filters.author.orEmpty() }
-        publicationYearInput.update { filters.publicationYear?.toString().orEmpty() }
-        topCategories.update { it.toggleSelectedStates(filters.selectedCategoryIds) }
-        availabilities.update { it.toggleSelectedStates(filters.selectedAvailabilityIds) }
-        topTeachers.update { it.toggleSelectedStates(filters.selectedTeacherIds) }
+        initialFilters.update { filters }
     }
 
     override fun onResultSent() {
