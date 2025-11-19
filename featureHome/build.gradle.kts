@@ -63,7 +63,6 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
-                implementation(libs.koin.androidx.compose)
                 implementation(libs.navigation.compose)
                 implementation(libs.kotlinx.serialization.json)
 

@@ -61,7 +61,6 @@ kotlin {
                 implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
-                implementation(libs.koin.androidx.compose)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.paging.compose)
 
