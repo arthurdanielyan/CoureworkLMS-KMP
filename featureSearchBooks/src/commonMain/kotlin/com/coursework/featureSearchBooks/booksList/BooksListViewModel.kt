@@ -7,9 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.coursework.corePresentation.navigation.AppRouter
-import com.coursework.corePresentation.navigation.LoginDestination
-import com.coursework.corePresentation.viewState.books.BookViewState
-import com.coursework.corePresentation.viewState.books.mapper.BookViewStateMapper
+import com.coursework.corePresentation.shared.books.BookViewState
+import com.coursework.corePresentation.shared.books.mapper.BookViewStateMapper
 import com.coursework.corePresentation.viewState.emptyPagingData
 import com.coursework.domain.books.model.SearchFilters
 import com.coursework.domain.user.model.UserType
@@ -34,7 +33,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 internal class BooksListViewModel(
     private val appRouter: AppRouter,
-    private val booksPagingSourceFactory: BooksPagingSource.Factory,
+    private val booksPagingSourceFactory: SearchBooksPagingSourceFactory,
     private val bookViewStateMapper: BookViewStateMapper,
     private val getUserTypeUseCase: GetUserTypeUseCase,
 ) : ViewModel(), BooksListUiCallbacks {
@@ -128,14 +127,6 @@ internal class BooksListViewModel(
             EditBookDestination(
                 isNewBook = true,
             )
-        )
-    }
-
-    override fun onLogoutClick() {
-        // TODO: Implement logout logic
-        appRouter.navigate(
-            destination = LoginDestination,
-            popAll = true,
         )
     }
 

@@ -13,4 +13,9 @@
     <string name="reference_only">Reference only</string>
     <string name="cancel">Cancel</string>
     <string name="retry">Retry</string>
+    <string name="by_authors">by %1$s</string>
+    <string name="pdf_available">PDF available</string>
+    <string name="publisher">Publisher: %1$s</string>
+    <string name="modify_book">Modify book details</string>
+    <string name="remove">Remove</string>
 </resources>

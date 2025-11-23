@@ -1,6 +1,5 @@
 package com.coursework.corePresentation.navigation
 
-import com.coursework.corePresentation.Destination
 import kotlin.reflect.KClass
 
 interface AppRouter {

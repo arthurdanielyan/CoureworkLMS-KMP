@@ -28,14 +28,14 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.size.Size
 import com.coursework.corePresentation.commonUi.IconButton
-import com.coursework.corePresentation.commonUi.maximizableContent.MaximizableContent
 import com.coursework.corePresentation.commonUi.SpacerWidth
+import com.coursework.corePresentation.commonUi.maximizableContent.MaximizableContent
 import com.coursework.corePresentation.commonUi.modifyIf
 import com.coursework.featureEditBook.presentation.viewState.CoverImageViewState
 import commonResources.ic_close
+import commonResources.ic_modify
+import commonResources.ic_trash
 import lms.featureeditbook.generated.resources.cover_uploaded
-import lms.featureeditbook.generated.resources.ic_modify
-import lms.featureeditbook.generated.resources.ic_trash
 import lms.featureeditbook.generated.resources.ic_upload
 import lms.featureeditbook.generated.resources.upload_cover_image
 import org.jetbrains.compose.resources.stringResource
@@ -125,14 +125,14 @@ internal fun CoverImagePicker(
         SpacerWidth(2.dp)
         if (coverImage.isUploaded) {
             IconButton(
-                imageVector = vectorResource(Drawables.ic_modify),
+                imageVector = vectorResource(CoreDrawables.ic_modify),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 onClick = onPickImageClick
             )
             SpacerWidth(2.dp)
             IconButton(
-                imageVector = vectorResource(Drawables.ic_trash),
+                imageVector = vectorResource(CoreDrawables.ic_trash),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 onClick = onRemoveClick

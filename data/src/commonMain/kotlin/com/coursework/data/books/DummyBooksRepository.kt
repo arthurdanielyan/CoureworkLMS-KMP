@@ -6,7 +6,6 @@ import com.coursework.domain.bookDetails.model.BookDetails
 import com.coursework.domain.books.BooksRepository
 import com.coursework.domain.books.model.PagingLimit
 import com.coursework.domain.books.model.SearchFilters
-import com.coursework.domain.books.model.books.Book
 import com.coursework.domain.books.model.books.BookPaginationResult
 import kotlinx.coroutines.delay
 
@@ -45,7 +44,19 @@ class DummyBooksRepository(
         }
     }
 
-    override suspend fun getMyAddedBooks(): Result<List<Book>> {
-        TODO("Not yet implemented")
+    override suspend fun getMyAddedBooks(pagingLimit: PagingLimit): Result<BookPaginationResult> {
+        return runCatching {
+            delay(1000)
+            val books = MockData.books.filterIndexed { index, _ ->
+                index % 3 == 0
+            }
+            BookPaginationResult(
+                books = books.subList(
+                    fromIndex = pagingLimit.offset,
+                    toIndex = (pagingLimit.offset + pagingLimit.limit).coerceAtMost(books.size)
+                ),
+                isEndReached = pagingLimit.offset + pagingLimit.limit >= books.size,
+            )
+        }
     }
 }

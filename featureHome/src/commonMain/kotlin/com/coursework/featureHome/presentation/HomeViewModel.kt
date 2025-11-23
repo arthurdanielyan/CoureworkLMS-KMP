@@ -2,15 +2,16 @@ package com.coursework.featureHome.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.coursework.corePresentation.Destination
 import com.coursework.corePresentation.navigation.AppRouter
+import com.coursework.corePresentation.navigation.Destination
+import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.domain.user.model.UserType
 import com.coursework.domain.user.usecases.GetUserTypeUseCase
 import com.coursework.featureHome.presentation.viewState.BottomBarItemViewState
 import com.coursework.featureHome.presentation.viewState.BottomBarType
 import com.coursework.featureHome.presentation.viewState.HomeViewState
-import com.coursework.featureHome.ui.DummyScreenDestination
-import com.coursework.featureSearchBooks.shared.SearchBooksDestination
+import com.coursework.featureMyAddedBooks.MyAddedBooksDestination
+import com.coursework.featureSearchBooks.booksList.BooksListDestination
 import com.coursework.utils.stateInWhileSubscribed
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -58,9 +59,9 @@ internal class HomeViewModel(
 
     private fun BottomBarItemViewState.toDestination(): Destination {
         return when (this) {
-            BottomBarItemViewState.Search -> SearchBooksDestination
-            BottomBarItemViewState.Favourites -> DummyScreenDestination
-            BottomBarItemViewState.MyBooks -> DummyScreenDestination
+            BottomBarItemViewState.Search -> BooksListDestination
+            BottomBarItemViewState.Favourites -> MyAddedBooksDestination
+            BottomBarItemViewState.MyBooks -> MyAddedBooksDestination
         }
     }
 
@@ -75,9 +76,17 @@ internal class HomeViewModel(
         }
     }
 
+    override fun onLogoutClick() {
+        // TODO: Implement logout logic
+        appRouter.navigate(
+            destination = LoginDestination,
+            popAll = true,
+        )
+    }
+
     override fun onBackClick() {
         appRouter.navigate(
-            destination = SearchBooksDestination,
+            destination = BooksListDestination,
             popUpToStart = true,
             saveState = true
         )

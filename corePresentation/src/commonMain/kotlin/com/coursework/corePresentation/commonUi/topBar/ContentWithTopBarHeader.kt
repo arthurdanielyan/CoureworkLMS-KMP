@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -54,6 +55,7 @@ fun ContentWithTopBarHeader(
     ) {
         TopBarWithBackButton(
             modifier = Modifier
+                .statusBarsPadding()
                 .onSizeChanged {
                     topBarHeight = it.height
                 }

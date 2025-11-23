@@ -1,6 +1,5 @@
 package com.coursework.corePresentation.navigation
 
-import com.coursework.corePresentation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable

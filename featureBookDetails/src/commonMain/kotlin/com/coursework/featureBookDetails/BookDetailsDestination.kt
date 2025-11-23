@@ -1,6 +1,6 @@
 package com.coursework.featureBookDetails
 
-import com.coursework.corePresentation.Destination
+import com.coursework.corePresentation.navigation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable

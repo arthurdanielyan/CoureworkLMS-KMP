@@ -4,18 +4,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.coursework.corePresentation.Destination
 import com.coursework.corePresentation.navigation.AppRouter
+import com.coursework.corePresentation.navigation.Destination
 import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.corePresentation.navigation.NavControllersHolder
 import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.BookReviewsDestination
 import com.coursework.featureEditBook.EditBookDestination
 import com.coursework.featureHome.HomeScreenDestination
-import com.coursework.featureHome.ui.DummyScreenDestination
+import com.coursework.featureHome.ui.HomeBottomNavigationKey
 import com.coursework.featureHome.ui.HomeNavigationKey
+import com.coursework.featureMyAddedBooks.MyAddedBooksDestination
+import com.coursework.featureSearchBooks.booksList.BooksListDestination
 import com.coursework.featureSearchBooks.searchFilters.SearchFiltersDestination
-import com.coursework.featureSearchBooks.shared.SearchBooksDestination
 import com.coursework.lms.RootNavigationKey
 import kotlin.reflect.KClass
 
@@ -38,9 +39,10 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
             BookReviewsDestination,
             is EditBookDestination -> controllers[RootNavigationKey]
 
-            SearchBooksDestination,
-            SearchFiltersDestination,
-            DummyScreenDestination -> controllers[HomeNavigationKey]
+            BooksListDestination,
+            MyAddedBooksDestination -> controllers[HomeBottomNavigationKey]
+
+            SearchFiltersDestination -> controllers[HomeNavigationKey]
 
             else -> null
         }

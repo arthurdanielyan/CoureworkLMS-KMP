@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.commonUi.filters.FilterViewState
 import com.coursework.corePresentation.externalActivityLauncher.ExternalActivityLauncher
 import com.coursework.corePresentation.navigation.AppRouter
+import com.coursework.corePresentation.shared.books.mapper.FilterViewStateMapper
 import com.coursework.corePresentation.viewState.DataLoadingState
 import com.coursework.corePresentation.viewState.StringValue
-import com.coursework.corePresentation.viewState.books.mapper.FilterViewStateMapper
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.corePresentation.viewState.toDataLoadingState
 import com.coursework.domain.bookDetails.usecases.GetBookDetailsUseCase
@@ -64,7 +64,7 @@ internal class EditBookViewModel(
     val uiEffect = _uiEffect.receiveAsFlow()
 
     private val details = MutableStateFlow(EditBookDetailsViewState())
-    private val topBarTitle = MutableStateFlow<StringValue>(StringValue.RawString(""))
+    private val topBarTitle = MutableStateFlow<StringValue>(StringValue.RawString(destination.bookTitle.orEmpty()))
     private val dataLoadingState = MutableStateFlow(DataLoadingState.Loading)
     val uiState = combine(
         topBarTitle,

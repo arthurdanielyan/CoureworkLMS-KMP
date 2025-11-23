@@ -106,7 +106,9 @@ private fun BookDetailsScreen(
     ) {
         if (state.dataLoadingState != DataLoadingState.Success) {
             TopBarWithBackButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding(),
                 title = state.screenTitleWhileLoading,
                 onBackClick = callbacks::onBackClick,
             )

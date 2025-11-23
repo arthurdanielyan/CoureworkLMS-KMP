@@ -1,8 +1,8 @@
-package com.coursework.corePresentation.viewState.books.mapper
+package com.coursework.corePresentation.shared.books.mapper
 
 import com.coursework.corePresentation.commonUi.filters.FilterViewState
+import com.coursework.corePresentation.shared.books.mapper.FilterViewStateMapper.Params
 import com.coursework.corePresentation.viewState.StringValue
-import com.coursework.corePresentation.viewState.books.mapper.FilterViewStateMapper.Params
 import com.coursework.domain.bookDetails.model.NamedItem
 import com.coursework.utils.ParameterizedMapper
 

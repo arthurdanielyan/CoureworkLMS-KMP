@@ -70,6 +70,7 @@ kotlin {
                 implementation(projects.utils)
                 implementation(projects.corePresentation)
                 implementation(projects.featureSearchBooks)
+                implementation(projects.featureMyAddedBooks)
             }
         }
     }

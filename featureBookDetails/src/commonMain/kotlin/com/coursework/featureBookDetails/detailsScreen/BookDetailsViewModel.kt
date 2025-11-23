@@ -43,7 +43,9 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 internal class BookDetailsViewModel(
     private val destination: BookDetailsDestination,
     private val appRouter: AppRouter,

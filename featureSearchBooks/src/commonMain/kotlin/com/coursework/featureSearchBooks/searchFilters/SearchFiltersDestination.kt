@@ -1,6 +1,6 @@
 package com.coursework.featureSearchBooks.searchFilters
 
-import com.coursework.corePresentation.Destination
+import com.coursework.corePresentation.navigation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable

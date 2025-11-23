@@ -1,0 +1,3 @@
+package com.coursework.corePresentation.navigation
+
+interface Destination

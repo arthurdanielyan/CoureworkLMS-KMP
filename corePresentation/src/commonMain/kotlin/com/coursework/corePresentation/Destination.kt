@@ -1,3 +1,0 @@
-package com.coursework.corePresentation
-
-interface Destination

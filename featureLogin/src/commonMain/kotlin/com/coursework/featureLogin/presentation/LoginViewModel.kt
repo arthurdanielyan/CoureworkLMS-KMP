@@ -3,7 +3,6 @@ package com.coursework.featureLogin.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.navigation.AppRouter
-import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.corePresentation.viewState.StringValue
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.utils.stateInWhileSubscribed
@@ -52,8 +51,7 @@ internal class LoginViewModel(
         // TODO: Not yet implemented
         appRouter.navigate(
             destination = HomeScreenDestination,
-            popUpTo = LoginDestination::class,
-            inclusive = true,
+            popAll = true
         )
     }
 
@@ -66,8 +64,7 @@ internal class LoginViewModel(
         // For Testing
         appRouter.navigate(
             destination = HomeScreenDestination,
-            popUpTo = LoginDestination::class,
-            inclusive = true,
+            popAll = true
         )
     }
 }

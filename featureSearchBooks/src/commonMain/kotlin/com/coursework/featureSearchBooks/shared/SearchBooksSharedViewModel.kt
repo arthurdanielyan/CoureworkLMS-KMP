@@ -5,7 +5,9 @@ import com.coursework.domain.books.model.SearchFilters
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.uuid.ExperimentalUuidApi
 
+@OptIn(ExperimentalUuidApi::class)
 class SearchBooksSharedViewModel : ViewModel() {
 
     private val _searchFilters = MutableStateFlow(SearchFilters())
@@ -14,4 +16,5 @@ class SearchBooksSharedViewModel : ViewModel() {
     fun setResult(filters: SearchFilters) {
         _searchFilters.update { filters }
     }
+
 }

@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -50,6 +49,7 @@ kotlin {
             implementation(projects.featureSearchBooks)
             implementation(projects.featureBookDetails)
             implementation(projects.featureEditBook)
+            implementation(projects.featureMyAddedBooks)
         }
     }
 }
@@ -92,7 +92,9 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

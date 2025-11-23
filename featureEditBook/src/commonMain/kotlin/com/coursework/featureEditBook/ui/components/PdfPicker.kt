@@ -19,16 +19,16 @@ import com.coursework.corePresentation.commonUi.SpacerWidth
 import com.coursework.corePresentation.commonUi.clickableWithoutIndication
 import com.coursework.corePresentation.commonUi.modifyIf
 import com.coursework.featureEditBook.presentation.viewState.BookPdfViewState
+import commonResources.ic_modify
 import commonResources.ic_pdf
-import lms.featureeditbook.generated.resources.ic_modify
-import lms.featureeditbook.generated.resources.ic_trash
+import commonResources.ic_trash
 import lms.featureeditbook.generated.resources.ic_upload
 import lms.featureeditbook.generated.resources.upload_pdf
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
+import commonResources.Res.drawable as CoreDrawables
 import lms.featureeditbook.generated.resources.Res.drawable as Drawables
 import lms.featureeditbook.generated.resources.Res.string as Strings
-import commonResources.Res.drawable as CoreDrawables
-import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 internal fun PdfPicker(
@@ -83,14 +83,14 @@ internal fun PdfPicker(
         SpacerWidth(8.dp)
         if (bookPdf.isUploaded) {
             IconButton(
-                imageVector = vectorResource(Drawables.ic_modify),
+                imageVector = vectorResource(CoreDrawables.ic_modify),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 onClick = onPickFileClick
             )
 
             IconButton(
-                imageVector = vectorResource(Drawables.ic_trash),
+                imageVector = vectorResource(CoreDrawables.ic_trash),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 onClick = onRemoveClick

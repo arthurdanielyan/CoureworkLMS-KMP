@@ -1,6 +1,6 @@
-package com.coursework.corePresentation.viewState.books.mapper
+package com.coursework.corePresentation.shared.books.mapper
 
-import com.coursework.corePresentation.viewState.books.BookViewState
+import com.coursework.corePresentation.shared.books.BookViewState
 import com.coursework.corePresentation.viewState.toComposeList
 import com.coursework.domain.books.model.books.Book
 import com.coursework.utils.Mapper

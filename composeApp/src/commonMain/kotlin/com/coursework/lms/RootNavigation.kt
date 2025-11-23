@@ -2,7 +2,10 @@ package com.coursework.lms
 
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +33,8 @@ private val appScreens = mapOf<KClass<*>, @Composable (NavBackStackEntry) -> Uni
 internal fun RootNavigation() {
     val navController = registerNavController(RootNavigationKey)
     NavHost(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background),
         navController = navController,
         startDestination = LoginDestination,
         enterTransition = { SlideInFromRight },

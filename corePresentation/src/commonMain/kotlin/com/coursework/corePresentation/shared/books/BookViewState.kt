@@ -1,4 +1,4 @@
-package com.coursework.corePresentation.viewState.books
+package com.coursework.corePresentation.shared.books
 
 import androidx.compose.runtime.Immutable
 import com.coursework.corePresentation.viewState.ComposeList
