@@ -1,11 +1,16 @@
 package com.coursework.featureBookDetails.detailsScreen.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -32,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.AsyncImage
 import com.coursework.corePresentation.commonUi.FiveStarsRating
+import com.coursework.corePresentation.commonUi.IconButton
 import com.coursework.corePresentation.commonUi.LoadingStatePresenter
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.topBar.ContentWithTopBarHeader
@@ -46,6 +55,8 @@ import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsScre
 import com.coursework.featureBookDetails.detailsScreen.viewState.BookDetailsViewState
 import commonResources.author
 import commonResources.categories
+import commonResources.ic_favourites
+import commonResources.ic_favourites_filled
 import commonResources.language
 import lms.featurebookdetails.generated.resources.authors
 import lms.featurebookdetails.generated.resources.available_copies
@@ -60,8 +71,10 @@ import lms.featurebookdetails.generated.resources.reserve
 import lms.featurebookdetails.generated.resources.total_copies
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import commonResources.Res.drawable as CoreDrawables
 import commonResources.Res.string as CoreStrings
 import lms.featurebookdetails.generated.resources.Res.drawable as Drawables
 import lms.featurebookdetails.generated.resources.Res.string as Strings
@@ -198,7 +211,8 @@ private fun ActionButtons(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         PrimaryButton(
             text = stringResource(Strings.download_pdf),
@@ -208,6 +222,32 @@ private fun ActionButtons(
             PrimaryButton(
                 text = stringResource(Strings.reserve),
                 onClick = onReserveBookClick,
+            )
+        }
+        Spacer(Modifier.weight(1f))
+        var isFavourite by rememberSaveable {
+            mutableStateOf(false)
+        }
+        AnimatedContent(
+            targetState = isFavourite,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut()
+            }
+        ) {
+            IconButton(
+                imageVector = vectorResource(
+                    if (it) {
+                        CoreDrawables.ic_favourites_filled
+                    } else {
+                        CoreDrawables.ic_favourites
+                    }
+                ),
+                iconSize = 28.dp,
+                contentDescription = null,
+                onClick = {
+                    isFavourite = !isFavourite
+                },
+                tint = Color.Unspecified // TODO: add favourite color
             )
         }
     }
