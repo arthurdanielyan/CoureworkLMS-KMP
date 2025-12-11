@@ -4,16 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.navigation.AppRouter
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.domain.login.LoginUseCase
+import com.coursework.domain.user.model.UserType
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.utils.stateInWhileSubscribed
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import lms.featurelogin.generated.resources.invalid_email_message
 import lms.featurelogin.generated.resources.Res.string as Strings
 
 internal class LoginViewModel(
     private val appRouter: AppRouter,
+    private val loginUseCase: LoginUseCase,
 ) : ViewModel(), LoginUiCallbacks {
 
     private val emailInput = MutableStateFlow("")
@@ -49,10 +53,20 @@ internal class LoginViewModel(
 
     override fun onLoginClick() {
         // TODO: Not yet implemented
-        appRouter.navigate(
-            destination = HomeScreenDestination,
-            popAll = true
-        )
+        viewModelScope.launch {
+            loginUseCase(
+                if (emailInput.value.contains("student")) { // Mock implementation
+                    UserType.Student
+                } else {
+                    UserType.Teacher
+                }
+            ).onSuccess {
+                appRouter.navigate(
+                    destination = HomeScreenDestination,
+                    popAll = true
+                )
+            }
+        }
     }
 
     override fun onLoginAsStudentClick() {
