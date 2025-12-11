@@ -6,6 +6,7 @@ import com.coursework.data.di.dataModule
 import com.coursework.domain.di.domainModule
 import com.coursework.featureBookDetails.di.featureBookDetailsModule
 import com.coursework.featureEditBook.di.featureEditBookModule
+import com.coursework.featureFavorites.di.favouritesModule
 import com.coursework.featureHome.di.featureHomeModule
 import com.coursework.featureLogin.di.featureLoginModule
 import com.coursework.featureMyAddedBooks.di.featureMyAddedBooksModule
@@ -28,7 +29,8 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             *featureSearchBooksModule.toTypedArray(),
             featureBookDetailsModule,
             featureEditBookModule,
-            featureMyAddedBooksModule
+            featureMyAddedBooksModule,
+            favouritesModule,
         )
     }
 }

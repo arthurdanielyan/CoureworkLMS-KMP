@@ -27,6 +27,7 @@ internal sealed interface BottomBarType {
     data object Teacher : BottomBarType {
         override val items = listOf(
             BottomBarItemViewState.Search,
+            BottomBarItemViewState.Favourites,
             BottomBarItemViewState.MyBooks,
         )
     }

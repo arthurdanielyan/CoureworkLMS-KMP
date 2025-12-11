@@ -50,6 +50,7 @@ kotlin {
             implementation(projects.featureBookDetails)
             implementation(projects.featureEditBook)
             implementation(projects.featureMyAddedBooks)
+            implementation(projects.featureFavorites)
         }
     }
 }

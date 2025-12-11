@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -13,14 +13,12 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.coursework.featureHome"
+        namespace = "com.coursework.featureFavorites"
         compileSdk = 36
         minSdk = 24
 
         androidResources.enable = true
     }
-
-    jvmToolchain(17)
 
     // For iOS targets, this is also where you should
     // configure native binary output. For more information, see:
@@ -29,7 +27,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "featureHomeKit"
+    val xcfName = "featureFavoritesKit"
 
     iosX64 {
         binaries.framework {
@@ -60,18 +58,14 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
 
-                implementation(compose.components.resources)
-
-                implementation(libs.koin.core)
-                implementation(libs.navigation.compose)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(compose.components.resources)
+                implementation(libs.paging.compose)
 
                 implementation(projects.domain)
                 implementation(projects.utils)
                 implementation(projects.corePresentation)
-                implementation(projects.featureSearchBooks)
-                implementation(projects.featureMyAddedBooks)
-                implementation(projects.featureFavorites)
+                implementation(projects.featureBookDetails)
             }
         }
     }

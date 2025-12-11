@@ -7,6 +7,7 @@ import com.coursework.corePresentation.navigation.Destination
 import com.coursework.corePresentation.navigation.LoginDestination
 import com.coursework.domain.user.model.UserType
 import com.coursework.domain.user.usecases.GetUserTypeUseCase
+import com.coursework.featureFavorites.FavouritesDestination
 import com.coursework.featureHome.presentation.viewState.BottomBarItemViewState
 import com.coursework.featureHome.presentation.viewState.BottomBarType
 import com.coursework.featureHome.presentation.viewState.HomeViewState
@@ -60,7 +61,7 @@ internal class HomeViewModel(
     private fun BottomBarItemViewState.toDestination(): Destination {
         return when (this) {
             BottomBarItemViewState.Search -> BooksListDestination
-            BottomBarItemViewState.Favourites -> MyAddedBooksDestination
+            BottomBarItemViewState.Favourites -> FavouritesDestination
             BottomBarItemViewState.MyBooks -> MyAddedBooksDestination
         }
     }

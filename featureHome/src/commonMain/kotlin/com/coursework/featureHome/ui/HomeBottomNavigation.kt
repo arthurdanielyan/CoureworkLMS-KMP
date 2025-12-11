@@ -1,5 +1,8 @@
 package com.coursework.featureHome.ui
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.coursework.corePresentation.navigation.SlideInFromLeft
-import com.coursework.corePresentation.navigation.SlideInFromRight
-import com.coursework.corePresentation.navigation.SlideOutToLeft
-import com.coursework.corePresentation.navigation.SlideOutToRight
 import com.coursework.corePresentation.navigation.registerNavController
+import com.coursework.featureFavorites.FavouritesDestination
+import com.coursework.featureFavorites.ui.FavouritesScreen
 import com.coursework.featureHome.presentation.HomeUiCallbacks
 import com.coursework.featureHome.presentation.HomeViewModel
 import com.coursework.featureMyAddedBooks.MyAddedBooksDestination
@@ -47,25 +48,29 @@ fun HomeBottomNavigationScreens(searchBooksSharedViewModel: SearchBooksSharedVie
                 .background(MaterialTheme.colorScheme.background),
             navController = navController,
             startDestination = BooksListDestination,
+            enterTransition = { fadeIn(tween(500)) },
+            popEnterTransition = { fadeIn(tween(500)) },
+            exitTransition = { fadeOut(tween(500)) },
+            popExitTransition = { fadeOut(tween(500)) }
         ) {
-            composable<BooksListDestination>(
-                popEnterTransition = { SlideInFromLeft },
-                exitTransition = { SlideOutToLeft }
-            ) {
+            composable<BooksListDestination> {
                 SearchBooksScreen(
                     sharedViewModel = searchBooksSharedViewModel
                 )
             }
 
-            composable<MyAddedBooksDestination>(
-                enterTransition = { SlideInFromRight },
-                exitTransition = { SlideOutToRight },
-                popExitTransition = { SlideOutToRight }
-            ) {
+            composable<MyAddedBooksDestination> {
                 BackHandler {
                     callbacks.onBackClick()
                 }
                 MyAddedBooksScreen()
+            }
+
+            composable<FavouritesDestination> {
+                BackHandler {
+                    callbacks.onBackClick()
+                }
+                FavouritesScreen()
             }
         }
     }

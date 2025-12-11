@@ -11,6 +11,7 @@ import com.coursework.corePresentation.navigation.NavControllersHolder
 import com.coursework.featureBookDetails.BookDetailsDestination
 import com.coursework.featureBookDetails.common.BookReviewsDestination
 import com.coursework.featureEditBook.EditBookDestination
+import com.coursework.featureFavorites.FavouritesDestination
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureHome.ui.HomeBottomNavigationKey
 import com.coursework.featureHome.ui.HomeNavigationKey
@@ -40,6 +41,7 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
             is EditBookDestination -> controllers[RootNavigationKey]
 
             BooksListDestination,
+            FavouritesDestination,
             MyAddedBooksDestination -> controllers[HomeBottomNavigationKey]
 
             SearchFiltersDestination -> controllers[HomeNavigationKey]
