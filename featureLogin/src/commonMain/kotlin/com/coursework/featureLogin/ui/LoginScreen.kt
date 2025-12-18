@@ -21,6 +21,7 @@ import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.clickableWithoutIndication
 import com.coursework.featureLogin.presentation.LoginUiCallbacks
 import com.coursework.featureLogin.presentation.LoginViewModel
 import com.coursework.featureLogin.presentation.LoginViewState
@@ -28,6 +29,7 @@ import commonResources.email
 import commonResources.enter_email
 import commonResources.signup
 import lms.featurelogin.generated.resources.enter_password
+import lms.featurelogin.generated.resources.forgot_password
 import lms.featurelogin.generated.resources.login
 import lms.featurelogin.generated.resources.password
 import lms.featurelogin.generated.resources.welcome_back
@@ -88,6 +90,17 @@ private fun LoginScreen(
             label = stringResource(Strings.password),
             placeholder = stringResource(Strings.enter_password),
             keyboardType = KeyboardType.Password,
+        )
+        SpacerHeight(8.dp)
+        Text(
+            text = stringResource(Strings.forgot_password),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .align(Alignment.Start)
+                .clickableWithoutIndication(
+                    onClick = callbacks::onForgotPasswordClick
+                )
         )
 
         SpacerHeight(16.dp)

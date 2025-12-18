@@ -13,6 +13,7 @@ import com.coursework.featureMyAddedBooks.di.featureMyAddedBooksModule
 import com.coursework.featureSearchBooks.di.featureSearchBooksModule
 import com.coursework.featureSignup.di.signupModule
 import com.coursework.lms.appRouter.di.appRouterModule
+import com.coursework.lms.featureRecoverPassword.di.passwordRecoveryModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -33,6 +34,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
             featureMyAddedBooksModule,
             favouritesModule,
             signupModule,
+            passwordRecoveryModule,
         )
     }
 }

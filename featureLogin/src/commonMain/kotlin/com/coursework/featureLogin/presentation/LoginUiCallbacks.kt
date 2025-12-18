@@ -11,4 +11,5 @@ internal interface LoginUiCallbacks {
     fun onSignUpClick()
     fun onLoginAsStudentClick()
     fun onLoginAsTeacherClick()
+    fun onForgotPasswordClick()
 }

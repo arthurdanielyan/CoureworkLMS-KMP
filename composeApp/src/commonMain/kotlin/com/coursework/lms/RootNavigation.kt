@@ -24,6 +24,8 @@ import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureHome.ui.HomeScreen
 import com.coursework.featureLogin.ui.LoginScreen
 import com.coursework.featureSignup.signupNavigation
+import com.coursework.lms.featureRecoverPassword.RecoverPasswordDestination
+import com.coursework.lms.featureRecoverPassword.recoverPasswordNavigation
 import kotlin.reflect.KClass
 
 private val appScreens = mapOf<KClass<*>, @Composable (NavBackStackEntry) -> Unit>(
@@ -71,6 +73,13 @@ internal fun RootNavigation() {
         )
 
         signupNavigation()
+
+        recoverPasswordNavigation(
+            getParentDestination = {
+                val parentEntry = navController.getBackStackEntry(RecoverPasswordDestination::class)
+                parentEntry.toRoute<RecoverPasswordDestination>()
+            }
+        )
     }
 }
 

@@ -9,7 +9,7 @@
     <string name="password_rule_3"> • Must contain at least 1 special character(i.e. !@#$%^&amp;*))</string>
 
     <string name="passwords_match">Passwords must match</string>
-    <string name="next">Next</string>
+
     <string name="sign_in">Sign In</string>
     <string name="verify_email">Verify Email</string>
     <string name="code_sent">We've sent a verification code to your email, please enter it below</string>

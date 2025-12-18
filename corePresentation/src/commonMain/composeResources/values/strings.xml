@@ -22,4 +22,11 @@
     <string name="email">Email</string>
     <string name="enter_email">Enter your email</string>
     <string name="invalid_email_message">Please enter a valid email address</string>
+    <string name="next">Next</string>
+    <string name="create_password">Create password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="passwords_match">Passwords must match</string>
+    <string name="password_rule_1"> • Must contain at least 1 uppercase and 1 lowercase letter</string>
+    <string name="password_rule_2"> • Must contain at least 2 numbers</string>
+    <string name="password_rule_3"> • Must contain at least 1 special character(i.e. !@#$%^&amp;*))</string>
 </resources>

@@ -8,6 +8,7 @@ import com.coursework.domain.login.LoginUseCase
 import com.coursework.domain.user.model.UserType
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureSignup.SingupDestination
+import com.coursework.lms.featureRecoverPassword.RecoverPasswordDestination
 import com.coursework.utils.stateInWhileSubscribed
 import commonResources.invalid_email_message
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,6 +88,14 @@ internal class LoginViewModel(
         appRouter.navigate(
             destination = HomeScreenDestination,
             popAll = true
+        )
+    }
+
+    override fun onForgotPasswordClick() {
+        appRouter.navigate(
+            RecoverPasswordDestination(
+                email = emailInput.value
+            )
         )
     }
 }

@@ -21,6 +21,9 @@ import com.coursework.featureSearchBooks.searchFilters.SearchFiltersDestination
 import com.coursework.featureSignup.SingupDestination
 import com.coursework.featureSignup.verifyEmailScreen.VerifyEmailDestination
 import com.coursework.lms.RootNavigationKey
+import com.coursework.lms.featureRecoverPassword.RecoverPasswordDestination
+import com.coursework.lms.featureRecoverPassword.createNewPassword.CreateNewPasswordDestination
+import com.coursework.lms.featureRecoverPassword.verifyCode.VerifyCodeDestination
 import kotlin.reflect.KClass
 
 class AppRouterImpl : AppRouter, NavControllersHolder {
@@ -42,6 +45,9 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
             BookReviewsDestination,
             SingupDestination,
             VerifyEmailDestination,
+            is RecoverPasswordDestination,
+            CreateNewPasswordDestination,
+            VerifyCodeDestination,
             is EditBookDestination -> controllers[RootNavigationKey]
 
             BooksListDestination,

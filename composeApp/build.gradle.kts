@@ -52,6 +52,7 @@ kotlin {
             implementation(projects.featureMyAddedBooks)
             implementation(projects.featureFavorites)
             implementation(projects.featureSignup)
+            implementation(projects.featureRecoverPassword)
         }
     }
 }

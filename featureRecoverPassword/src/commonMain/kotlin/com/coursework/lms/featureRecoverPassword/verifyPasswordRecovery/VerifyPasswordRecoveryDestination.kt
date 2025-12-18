@@ -1,0 +1,7 @@
+package com.coursework.lms.featureRecoverPassword.verifyPasswordRecovery
+
+import com.coursework.corePresentation.navigation.Destination
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object VerifyPasswordRecoveryDestination : Destination
