@@ -79,7 +79,7 @@ private fun CreateNewPasswordScreen(
             isError = state.isPasswordError,
             label = stringResource(CoreStrings.create_password),
             placeholder = stringResource(CoreStrings.create_password),
-            keyboardType = KeyboardType.Password,
+            keyboardType = KeyboardType.Text,
             errorMessageEnabled = true,
         )
         PasswordRulesBlock(
@@ -94,7 +94,7 @@ private fun CreateNewPasswordScreen(
             label = stringResource(CoreStrings.confirm_password),
             placeholder = stringResource(CoreStrings.confirm_password),
             errorMessage = stringResource(CoreStrings.passwords_match),
-            keyboardType = KeyboardType.Password,
+            keyboardType = KeyboardType.Text,
             errorMessageEnabled = true,
         )
 
