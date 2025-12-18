@@ -16,21 +16,19 @@ import androidx.navigation.compose.composable
 import com.coursework.corePresentation.navigation.registerNavController
 import com.coursework.featureFavorites.FavouritesDestination
 import com.coursework.featureFavorites.ui.FavouritesScreen
-import com.coursework.featureHome.presentation.HomeUiCallbacks
-import com.coursework.featureHome.presentation.HomeViewModel
 import com.coursework.featureMyAddedBooks.MyAddedBooksDestination
 import com.coursework.featureMyAddedBooks.ui.MyAddedBooksScreen
 import com.coursework.featureSearchBooks.booksList.BooksListDestination
 import com.coursework.featureSearchBooks.booksList.ui.SearchBooksScreen
 import com.coursework.featureSearchBooks.shared.SearchBooksSharedViewModel
-import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HomeBottomNavigationScreens(searchBooksSharedViewModel: SearchBooksSharedViewModel) {
-
-    val viewModel = koinViewModel<HomeViewModel>()
-    val callbacks: HomeUiCallbacks = viewModel
+fun HomeBottomNavigationScreens(
+    searchBooksSharedViewModel: SearchBooksSharedViewModel,
+    onBackClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+) {
 
     val navController = registerNavController(HomeBottomNavigationKey)
 
@@ -40,7 +38,7 @@ fun HomeBottomNavigationScreens(searchBooksSharedViewModel: SearchBooksSharedVie
             .background(MaterialTheme.colorScheme.background)
     ) {
         HomeTopBar(
-            onLogoutClick = callbacks::onLogoutClick
+            onLogoutClick = onLogoutClick
         )
         NavHost(
             modifier = Modifier
@@ -61,14 +59,14 @@ fun HomeBottomNavigationScreens(searchBooksSharedViewModel: SearchBooksSharedVie
 
             composable<MyAddedBooksDestination> {
                 BackHandler {
-                    callbacks.onBackClick()
+                    onBackClick()
                 }
                 MyAddedBooksScreen()
             }
 
             composable<FavouritesDestination> {
                 BackHandler {
-                    callbacks.onBackClick()
+                    onBackClick()
                 }
                 FavouritesScreen()
             }

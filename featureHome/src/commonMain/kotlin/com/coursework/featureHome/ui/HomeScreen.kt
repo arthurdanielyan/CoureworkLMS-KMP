@@ -59,7 +59,11 @@ fun HomeScreen() {
                 exitTransition = { SlideOutToLeft },
                 popEnterTransition = { SlideInFromLeft }
             ) {
-                HomeBottomNavigationScreens(searchBooksSharedViewModel)
+                HomeBottomNavigationScreens(
+                    searchBooksSharedViewModel = searchBooksSharedViewModel,
+                    onBackClick = callbacks::onBackClick,
+                    onLogoutClick = callbacks::onLogoutClick
+                )
             }
             composable<SearchFiltersDestination>(
                 enterTransition = { SlideInFromRight },
