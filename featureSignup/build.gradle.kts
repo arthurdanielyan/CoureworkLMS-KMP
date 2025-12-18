@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidLint)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -12,7 +13,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.coursework.featureLogin"
+        namespace = "com.coursework.featureSignup"
         compileSdk = 36
         minSdk = 24
 
@@ -26,7 +27,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "featureLoginKit"
+    val xcfName = "featureSignupKit"
 
     iosX64 {
         binaries.framework {
@@ -56,16 +57,17 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 // Add KMP dependencies here
+
                 implementation(compose.components.resources)
 
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
+                implementation(libs.navigation.compose)
 
                 implementation(projects.corePresentation)
                 implementation(projects.utils)
                 implementation(projects.domain)
                 implementation(projects.featureHome)
-                implementation(projects.featureSignup)
             }
         }
     }

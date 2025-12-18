@@ -18,20 +18,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.PrimaryButton
+import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
 import com.coursework.featureLogin.presentation.LoginUiCallbacks
 import com.coursework.featureLogin.presentation.LoginViewModel
 import com.coursework.featureLogin.presentation.LoginViewState
-import lms.featurelogin.generated.resources.email
-import lms.featurelogin.generated.resources.enter_email
+import commonResources.email
+import commonResources.enter_email
+import commonResources.signup
 import lms.featurelogin.generated.resources.enter_password
 import lms.featurelogin.generated.resources.login
 import lms.featurelogin.generated.resources.password
 import lms.featurelogin.generated.resources.welcome_back
-import lms.featurelogin.generated.resources.Res.string as Strings
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import commonResources.Res.string as CoreStrings
+import lms.featurelogin.generated.resources.Res.string as Strings
 
 @Composable
 fun LoginScreen() {
@@ -71,8 +74,8 @@ private fun LoginScreen(
             onValueChange = callbacks::onEmailType,
             isError = state.isEmailInputError,
             errorMessage = state.emailErrorMessage?.get(),
-            label = stringResource(Strings.email),
-            placeholder = stringResource(Strings.enter_email),
+            label = stringResource(CoreStrings.email),
+            placeholder = stringResource(CoreStrings.enter_email),
             keyboardType = KeyboardType.Email,
             errorMessageEnabled = true,
         )
@@ -93,6 +96,12 @@ private fun LoginScreen(
             text = stringResource(Strings.login),
             onClick = callbacks::onLoginClick
         )
+        Spacer(Modifier.weight(1f))
+        SecondaryButton(
+            text = stringResource(CoreStrings.signup),
+            onClick = callbacks::onSignUpClick
+        )
+
 
         /*
         SpacerHeight(32.dp)
@@ -112,7 +121,5 @@ private fun LoginScreen(
             text = "Simulate login as a teacher",
             onClick = callbacks::onLoginAsTeacherClick
         )*/
-
-        Spacer(Modifier.weight(1f))
     }
 }

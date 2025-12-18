@@ -18,4 +18,8 @@
     <string name="publisher">Publisher: %1$s</string>
     <string name="modify_book">Modify book details</string>
     <string name="remove">Remove</string>
+    <string name="signup">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="invalid_email_message">Please enter a valid email address</string>
 </resources>

@@ -18,6 +18,8 @@ import com.coursework.featureHome.ui.HomeNavigationKey
 import com.coursework.featureMyAddedBooks.MyAddedBooksDestination
 import com.coursework.featureSearchBooks.booksList.BooksListDestination
 import com.coursework.featureSearchBooks.searchFilters.SearchFiltersDestination
+import com.coursework.featureSignup.SingupDestination
+import com.coursework.featureSignup.verifyEmailScreen.VerifyEmailDestination
 import com.coursework.lms.RootNavigationKey
 import kotlin.reflect.KClass
 
@@ -38,6 +40,8 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
             HomeScreenDestination,
             is BookDetailsDestination,
             BookReviewsDestination,
+            SingupDestination,
+            VerifyEmailDestination,
             is EditBookDestination -> controllers[RootNavigationKey]
 
             BooksListDestination,

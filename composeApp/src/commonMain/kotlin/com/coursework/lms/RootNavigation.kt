@@ -23,6 +23,7 @@ import com.coursework.featureEditBook.ui.EditBookScreen
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureHome.ui.HomeScreen
 import com.coursework.featureLogin.ui.LoginScreen
+import com.coursework.featureSignup.signupNavigation
 import kotlin.reflect.KClass
 
 private val appScreens = mapOf<KClass<*>, @Composable (NavBackStackEntry) -> Unit>(
@@ -68,6 +69,8 @@ internal fun RootNavigation() {
                 parentEntry.toRoute<BookDetailsDestination>()
             }
         )
+
+        signupNavigation()
     }
 }
 

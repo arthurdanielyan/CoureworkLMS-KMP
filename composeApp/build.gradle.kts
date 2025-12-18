@@ -51,6 +51,7 @@ kotlin {
             implementation(projects.featureEditBook)
             implementation(projects.featureMyAddedBooks)
             implementation(projects.featureFavorites)
+            implementation(projects.featureSignup)
         }
     }
 }
