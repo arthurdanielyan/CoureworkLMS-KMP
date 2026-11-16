@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.coursework.corePresentation.ShowMessages
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
@@ -32,7 +33,9 @@ import commonResources.enter_email
 import commonResources.next
 import commonResources.passwords_match
 import commonResources.signup
+import lms.featuresignup.generated.resources.enter_full_name
 import lms.featuresignup.generated.resources.enter_polytech_email
+import lms.featuresignup.generated.resources.full_name
 import lms.featuresignup.generated.resources.sign_in
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,6 +46,8 @@ import lms.featuresignup.generated.resources.Res.string as Strings
 fun CreateAccountScreen() {
     val viewModel = koinViewModel<CreateAccountViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ShowMessages(viewModel.errorMessages)
 
     CreateAccountScreen(
         state = state,
@@ -87,6 +92,15 @@ private fun CreateAccountScreen(
             placeholder = stringResource(CoreStrings.enter_email),
             keyboardType = KeyboardType.Email,
             errorMessageEnabled = true,
+        )
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = state.fullNameInput,
+            onValueChange = callbacks::onFullNameType,
+            label = stringResource(Strings.full_name),
+            placeholder = stringResource(Strings.enter_full_name),
+            keyboardType = KeyboardType.Text,
         )
         TextField(
             modifier = Modifier

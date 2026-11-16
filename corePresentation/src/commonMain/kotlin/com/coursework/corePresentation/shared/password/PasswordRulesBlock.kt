@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import commonResources.password_rule_1
 import commonResources.password_rule_2
 import commonResources.password_rule_3
+import commonResources.password_rule_4
 import org.jetbrains.compose.resources.stringResource
 import commonResources.Res.string as CoreStrings
 
@@ -44,6 +45,15 @@ fun PasswordRulesBlock(
             text = stringResource(CoreStrings.password_rule_3),
             style = MaterialTheme.typography.bodySmall,
             color = if (state.isRule3Error) {
+                MaterialTheme.colorScheme.error
+            } else {
+                MaterialTheme.colorScheme.onBackground
+            },
+        )
+        Text(
+            text = stringResource(CoreStrings.password_rule_4),
+            style = MaterialTheme.typography.bodySmall,
+            color = if (state.isRule4Error) {
                 MaterialTheme.colorScheme.error
             } else {
                 MaterialTheme.colorScheme.onBackground

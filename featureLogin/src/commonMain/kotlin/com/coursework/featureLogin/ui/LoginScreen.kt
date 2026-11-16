@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.coursework.corePresentation.ShowMessages
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
@@ -42,6 +43,8 @@ import lms.featurelogin.generated.resources.Res.string as Strings
 fun LoginScreen() {
     val viewmodel = koinViewModel<LoginViewModel>()
     val state by viewmodel.uiState.collectAsStateWithLifecycle()
+
+    ShowMessages(viewmodel.errorMessages)
 
     LoginScreen(
         state = state,
@@ -107,7 +110,8 @@ private fun LoginScreen(
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(Strings.login),
-            onClick = callbacks::onLoginClick
+            onClick = callbacks::onLoginClick,
+            enabled = state.isLoginButtonEnabled,
         )
         Spacer(Modifier.weight(1f))
         SecondaryButton(

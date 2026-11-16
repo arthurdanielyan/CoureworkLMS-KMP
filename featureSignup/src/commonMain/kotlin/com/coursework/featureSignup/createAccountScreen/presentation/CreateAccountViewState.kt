@@ -10,8 +10,10 @@ import com.coursework.corePresentation.viewState.StringValue
 data class CreateAccountViewState(
     val emailInput: String = "",
     val emailErrorMessage: StringValue.StringResource? = null,
+    val fullNameInput: String = "",
     val passwordInput: String = "",
     val passwordConfirmInput: String = "",
+    val isLoading: Boolean = false,
 ) {
 
     val passwordRulesState: PasswordRulesState
@@ -27,10 +29,14 @@ data class CreateAccountViewState(
 
     val isEmailInputError = emailErrorMessage != null
 
+    private val isFullNameValid = fullNameInput.trim().length in 2..100
+
     val isNextButtonEnabled = emailInput.isNotEmpty()
+            && isFullNameValid
             && passwordInput.isNotEmpty()
             && passwordConfirmInput.isNotEmpty()
             && isEmailInputError.not()
             && isPasswordError.not()
             && passwordsMatchError.not()
+            && isLoading.not()
 }

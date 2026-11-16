@@ -6,6 +6,7 @@ import androidx.compose.runtime.Immutable
 internal interface CreateAccountUiCallbacks {
 
     fun onEmailType(value: String)
+    fun onFullNameType(value: String)
     fun onPasswordType(value: String)
     fun onPasswordConfirmType(value: String)
     fun onNextClick()

@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.coursework.corePresentation.navigation.AppRouter
 import com.coursework.corePresentation.viewState.StringValue
+import com.coursework.corePresentation.viewState.toErrorMessage
 import com.coursework.domain.login.LoginUseCase
-import com.coursework.domain.user.model.UserType
 import com.coursework.featureHome.HomeScreenDestination
 import com.coursework.featureSignup.SingupDestination
 import com.coursework.lms.featureRecoverPassword.RecoverPasswordDestination
 import com.coursework.utils.stateInWhileSubscribed
 import commonResources.invalid_email_message
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import commonResources.Res.string as CoreStrings
@@ -24,11 +27,19 @@ internal class LoginViewModel(
 
     private val emailInput = MutableStateFlow("")
     private val passwordInput = MutableStateFlow("")
+    private val isLoading = MutableStateFlow(false)
+
+    private val _errorMessages = Channel<StringValue>(
+        capacity = Channel.BUFFERED,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+    val errorMessages = _errorMessages.receiveAsFlow()
 
     val uiState = combine(
         emailInput,
         passwordInput,
-    ) { emailInput, passwordInput ->
+        isLoading,
+    ) { emailInput, passwordInput, isLoading ->
 
         val emailMessageError = StringValue.StringResource(CoreStrings.invalid_email_message)
             .takeIf { emailInput.isNotBlank() && isEmailValid(emailInput).not() }
@@ -37,12 +48,13 @@ internal class LoginViewModel(
             emailInput = emailInput,
             passwordInput = passwordInput,
             emailErrorMessage = emailMessageError,
+            isLoading = isLoading,
         )
     }.stateInWhileSubscribed(viewModelScope, LoginViewState())
 
     private fun isEmailValid(email: String): Boolean {
         val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        return email.matches(emailRegex.toRegex())
+        return email.trim().matches(emailRegex.toRegex())
     }
 
     override fun onEmailType(value: String) {
@@ -54,20 +66,21 @@ internal class LoginViewModel(
     }
 
     override fun onLoginClick() {
-        // TODO: Not yet implemented
+        if (isLoading.value) return
         viewModelScope.launch {
+            isLoading.value = true
             loginUseCase(
-                if (emailInput.value.contains("student")) { // Mock implementation
-                    UserType.Student
-                } else {
-                    UserType.Teacher
-                }
+                email = emailInput.value.trim(),
+                password = passwordInput.value,
             ).onSuccess {
                 appRouter.navigate(
                     destination = HomeScreenDestination,
                     popAll = true
                 )
+            }.onFailure { error ->
+                _errorMessages.trySend(error.toErrorMessage())
             }
+            isLoading.value = false
         }
     }
 

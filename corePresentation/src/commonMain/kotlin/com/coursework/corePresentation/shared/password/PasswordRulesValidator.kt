@@ -7,8 +7,9 @@ data class PasswordRulesState(
     val isRule1Error: Boolean,
     val isRule2Error: Boolean,
     val isRule3Error: Boolean,
+    val isRule4Error: Boolean,
 ) {
-    val isPasswordError: Boolean = isRule1Error || isRule2Error || isRule3Error
+    val isPasswordError: Boolean = isRule1Error || isRule2Error || isRule3Error || isRule4Error
 }
 
 fun validatePasswordRules(password: String): PasswordRulesState {
@@ -17,6 +18,7 @@ fun validatePasswordRules(password: String): PasswordRulesState {
             isRule1Error = false,
             isRule2Error = false,
             isRule3Error = false,
+            isRule4Error = false,
         )
     }
 
@@ -29,6 +31,8 @@ fun validatePasswordRules(password: String): PasswordRulesState {
         isRule1Error = hasUpperCase.not() || hasLowerCase.not(),
         isRule2Error = digitsCount < 2,
         isRule3Error = hasSpecialCharacter.not(),
+        // The server's limit is 72 bytes, since BCrypt ignores the rest; Armenian letters take 2 bytes each.
+        isRule4Error = password.length < 8 || password.encodeToByteArray().size > 72,
     )
 }
 

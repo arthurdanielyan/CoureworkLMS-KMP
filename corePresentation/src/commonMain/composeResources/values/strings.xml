@@ -29,4 +29,6 @@
     <string name="password_rule_1"> • Must contain at least 1 uppercase and 1 lowercase letter</string>
     <string name="password_rule_2"> • Must contain at least 2 numbers</string>
     <string name="password_rule_3"> • Must contain at least 1 special character(i.e. !@#$%^&amp;*))</string>
+    <string name="password_rule_4"> • Must be 8 to 72 characters long</string>
+    <string name="server_unreachable_message">Cannot reach the server. Check that the backend is running.</string>
 </resources>

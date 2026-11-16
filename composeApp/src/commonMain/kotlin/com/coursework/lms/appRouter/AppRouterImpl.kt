@@ -44,7 +44,7 @@ class AppRouterImpl : AppRouter, NavControllersHolder {
             is BookDetailsDestination,
             BookReviewsDestination,
             SingupDestination,
-            VerifyEmailDestination,
+            is VerifyEmailDestination,
             is RecoverPasswordDestination,
             CreateNewPasswordDestination,
             VerifyCodeDestination,

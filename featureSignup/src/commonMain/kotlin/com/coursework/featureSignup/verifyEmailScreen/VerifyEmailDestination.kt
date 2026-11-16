@@ -4,4 +4,6 @@ import com.coursework.corePresentation.navigation.Destination
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object VerifyEmailDestination : Destination
+data class VerifyEmailDestination(
+    val email: String,
+) : Destination

@@ -3,6 +3,7 @@ package com.coursework.featureSignup
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.coursework.featureSignup.createAccountScreen.CreateAccountDestination
 import com.coursework.featureSignup.createAccountScreen.ui.CreateAccountScreen
 import com.coursework.featureSignup.verifyEmailScreen.VerifyEmailDestination
@@ -17,7 +18,7 @@ fun NavGraphBuilder.signupNavigation() {
         }
 
         composable<VerifyEmailDestination> {
-            VerifyEmailScreen()
+            VerifyEmailScreen(it.toRoute())
         }
     }
 }

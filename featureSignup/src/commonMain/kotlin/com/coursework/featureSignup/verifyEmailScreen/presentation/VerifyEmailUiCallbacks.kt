@@ -8,4 +8,5 @@ internal interface VerifyEmailUiCallbacks {
     fun onBackClick()
     fun onCodeType(value: String)
     fun onRegisterClick()
+    fun onResendClick()
 }

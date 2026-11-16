@@ -12,6 +12,9 @@ import com.coursework.domain.books.usecases.DownloadPdfUseCase
 import com.coursework.domain.books.usecases.GetBooksUseCase
 import com.coursework.domain.books.usecases.GetMyAddedBooks
 import com.coursework.domain.login.LoginUseCase
+import com.coursework.domain.signup.ResendVerificationCodeUseCase
+import com.coursework.domain.signup.StartRegistrationUseCase
+import com.coursework.domain.signup.VerifyEmailUseCase
 import com.coursework.domain.user.usecases.GetUserTypeUseCase
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -30,4 +33,7 @@ val domainModule = module {
     factoryOf(::GetBookRatingDistribution)
     factoryOf(::GetMyAddedBooks)
     factoryOf(::LoginUseCase)
+    factoryOf(::StartRegistrationUseCase)
+    factoryOf(::ResendVerificationCodeUseCase)
+    factoryOf(::VerifyEmailUseCase)
 }

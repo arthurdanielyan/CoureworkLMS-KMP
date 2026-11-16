@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.coursework.corePresentation.ShowMessages
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.TextButton
 import com.coursework.corePresentation.commonUi.TextField
 import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
+import com.coursework.featureSignup.verifyEmailScreen.VerifyEmailDestination
 import com.coursework.featureSignup.verifyEmailScreen.presentation.VerifyEmailUiCallbacks
 import com.coursework.featureSignup.verifyEmailScreen.presentation.VerifyEmailViewModel
 import com.coursework.featureSignup.verifyEmailScreen.presentation.VerifyEmailViewState
@@ -29,12 +31,19 @@ import lms.featuresignup.generated.resources.resend
 import lms.featuresignup.generated.resources.verify_email
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import lms.featuresignup.generated.resources.Res.string as Strings
 
 @Composable
-fun VerifyEmailScreen() {
-    val viewModel = koinViewModel<VerifyEmailViewModel>()
+fun VerifyEmailScreen(
+    destination: VerifyEmailDestination,
+) {
+    val viewModel = koinViewModel<VerifyEmailViewModel>(
+        parameters = { parametersOf(destination) }
+    )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ShowMessages(viewModel.messages)
 
     VerifyEmailScreen(
         state = state,
@@ -66,7 +75,8 @@ private fun VerifyEmailScreen(
         )
         TextButton(
             text = stringResource(Strings.resend),
-            onClick = {}
+            onClick = callbacks::onResendClick,
+            enabled = state.isResendButtonEnabled,
         )
         TextField(
             modifier = Modifier
@@ -75,13 +85,13 @@ private fun VerifyEmailScreen(
             onValueChange = callbacks::onCodeType,
             label = stringResource(Strings.enter_code),
             placeholder = stringResource(Strings.enter_code),
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Number,
         )
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(Strings.register),
             onClick = callbacks::onRegisterClick,
-            enabled = false,
+            enabled = state.isRegisterButtonEnabled,
         )
         Spacer(Modifier.weight(1f))
     }

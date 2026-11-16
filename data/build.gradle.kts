@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -66,6 +67,11 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.auth)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.datastore.preferences.core)
 
                 implementation(projects.utils)
                 implementation(projects.domain)
@@ -75,12 +81,13 @@ kotlin {
         androidMain {
             dependencies {
                 implementation(libs.androidx.core.ktx)
+                implementation(libs.ktor.client.android)
             }
         }
 
         iosMain {
             dependencies {
-
+                implementation(libs.ktor.client.darwin)
             }
         }
     }

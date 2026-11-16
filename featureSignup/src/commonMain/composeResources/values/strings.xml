@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="enter_polytech_email">Enter your email address given by Polytechnic</string>
+    <string name="full_name">Full name</string>
+    <string name="enter_full_name">Enter your first and last name</string>
     <string name="create_password">Create a password</string>
     <string name="confirm_password">Confirm your password</string>
 
@@ -16,4 +18,5 @@
     <string name="enter_code">Enter the verification code</string>
     <string name="register">Register</string>
     <string name="resend">Resend</string>
+    <string name="code_resent">A new code is on its way</string>
 </resources>

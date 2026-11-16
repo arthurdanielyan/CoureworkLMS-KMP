@@ -1,13 +1,21 @@
 package com.coursework.domain.login
 
-import com.coursework.domain.CurrentUserTypeMock
-import com.coursework.domain.user.model.UserType
+import com.coursework.domain.auth.AuthRepository
+import com.coursework.domain.user.UserRepository
+import com.coursework.domain.user.usecases.rememberUserType
 
-class LoginUseCase {
+class LoginUseCase(
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
+) {
 
-    suspend operator fun invoke(userType: UserType): Result<Unit> {
-        return runCatching {
-            CurrentUserTypeMock.userType = userType
-        }
+    suspend operator fun invoke(
+        email: String,
+        password: String,
+    ): Result<Unit> {
+        return authRepository.login(email, password).fold(
+            onSuccess = { userRepository.rememberUserType() },
+            onFailure = { Result.failure(it) },
+        )
     }
 }
