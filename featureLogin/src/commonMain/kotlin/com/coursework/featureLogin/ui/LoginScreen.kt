@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,6 +24,7 @@ import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
 import com.coursework.corePresentation.commonUi.clickableWithoutIndication
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.featureLogin.presentation.LoginUiCallbacks
 import com.coursework.featureLogin.presentation.LoginViewModel
 import com.coursework.featureLogin.presentation.LoginViewState
@@ -62,6 +64,7 @@ private fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,6 +85,8 @@ private fun LoginScreen(
             label = stringResource(CoreStrings.email),
             placeholder = stringResource(CoreStrings.enter_email),
             keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next,
+            singleLine = true,
             errorMessageEnabled = true,
         )
         SpacerHeight(8.dp)
@@ -93,6 +98,8 @@ private fun LoginScreen(
             label = stringResource(Strings.password),
             placeholder = stringResource(Strings.enter_password),
             keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done,
+            singleLine = true,
         )
         SpacerHeight(8.dp)
         Text(

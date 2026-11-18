@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -19,6 +20,7 @@ import com.coursework.corePresentation.ShowMessages
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.TextButton
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.corePresentation.commonUi.topBar.TopBarWithBackButton
 import com.coursework.featureSignup.verifyEmailScreen.VerifyEmailDestination
 import com.coursework.featureSignup.verifyEmailScreen.presentation.VerifyEmailUiCallbacks
@@ -59,6 +61,7 @@ private fun VerifyEmailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -86,6 +89,8 @@ private fun VerifyEmailScreen(
             label = stringResource(Strings.enter_code),
             placeholder = stringResource(Strings.enter_code),
             keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done,
+            singleLine = true,
         )
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),

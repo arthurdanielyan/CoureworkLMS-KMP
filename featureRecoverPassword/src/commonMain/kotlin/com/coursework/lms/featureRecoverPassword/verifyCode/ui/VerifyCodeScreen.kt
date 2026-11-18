@@ -13,12 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.lms.featureRecoverPassword.verifyCode.presentation.VerifyCodeUiCallbacks
 import com.coursework.lms.featureRecoverPassword.verifyCode.presentation.VerifyCodeViewModel
@@ -51,6 +53,7 @@ private fun VerifyCodeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp)
             .imePadding(),
@@ -74,6 +77,8 @@ private fun VerifyCodeScreen(
             label = stringResource(Strings.enter_code),
             placeholder = stringResource(Strings.code_input_placeholder),
             keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done,
+            singleLine = true,
         )
         SpacerHeight(16.dp)
         PrimaryButton(

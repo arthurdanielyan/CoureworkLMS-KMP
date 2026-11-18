@@ -13,12 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.corePresentation.shared.password.PasswordRulesBlock
 import com.coursework.lms.featureRecoverPassword.createNewPassword.presentation.CreateNewPasswordUiCallbacks
@@ -55,6 +57,7 @@ private fun CreateNewPasswordScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -79,7 +82,9 @@ private fun CreateNewPasswordScreen(
             isError = state.isPasswordError,
             label = stringResource(CoreStrings.create_password),
             placeholder = stringResource(CoreStrings.create_password),
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Next,
+            singleLine = true,
             errorMessageEnabled = true,
         )
         PasswordRulesBlock(
@@ -94,7 +99,9 @@ private fun CreateNewPasswordScreen(
             label = stringResource(CoreStrings.confirm_password),
             placeholder = stringResource(CoreStrings.confirm_password),
             errorMessage = stringResource(CoreStrings.passwords_match),
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done,
+            singleLine = true,
             errorMessageEnabled = true,
         )
 

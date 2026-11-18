@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,6 +23,7 @@ import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SecondaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.corePresentation.shared.password.PasswordRulesBlock
 import com.coursework.featureSignup.createAccountScreen.presentation.CreateAccountUiCallbacks
 import com.coursework.featureSignup.createAccountScreen.presentation.CreateAccountViewModel
@@ -63,6 +65,7 @@ private fun CreateAccountScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp)
             .imePadding(),
@@ -91,6 +94,8 @@ private fun CreateAccountScreen(
             label = stringResource(CoreStrings.email),
             placeholder = stringResource(CoreStrings.enter_email),
             keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next,
+            singleLine = true,
             errorMessageEnabled = true,
         )
         TextField(
@@ -101,6 +106,8 @@ private fun CreateAccountScreen(
             label = stringResource(Strings.full_name),
             placeholder = stringResource(Strings.enter_full_name),
             keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next,
+            singleLine = true,
         )
         TextField(
             modifier = Modifier
@@ -110,7 +117,9 @@ private fun CreateAccountScreen(
             isError = state.isPasswordError,
             label = stringResource(CoreStrings.create_password),
             placeholder = stringResource(CoreStrings.create_password),
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Next,
+            singleLine = true,
             errorMessageEnabled = true,
         )
         PasswordRulesBlock(
@@ -125,7 +134,9 @@ private fun CreateAccountScreen(
             label = stringResource(CoreStrings.confirm_password),
             placeholder = stringResource(CoreStrings.confirm_password),
             errorMessage = stringResource(CoreStrings.passwords_match),
-            keyboardType = KeyboardType.Text,
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done,
+            singleLine = true,
             errorMessageEnabled = true,
         )
         PrimaryButton(

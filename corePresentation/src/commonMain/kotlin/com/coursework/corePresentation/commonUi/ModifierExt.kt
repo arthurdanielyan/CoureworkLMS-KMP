@@ -1,6 +1,7 @@
 package com.coursework.corePresentation.commonUi
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ripple
@@ -15,6 +16,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.IntSize
@@ -67,6 +70,16 @@ fun Modifier.clickableWithoutIndication(
         role = role,
         onClick = onClick,
     )
+}
+
+fun Modifier.hideKeyboardOnTap(): Modifier = composed {
+    val focusManager = LocalFocusManager.current
+    // Fields and buttons consume their own taps, so this only fires on empty space.
+    this.pointerInput(focusManager) {
+        detectTapGestures {
+            focusManager.clearFocus()
+        }
+    }
 }
 
 fun Modifier.contrastClickable(

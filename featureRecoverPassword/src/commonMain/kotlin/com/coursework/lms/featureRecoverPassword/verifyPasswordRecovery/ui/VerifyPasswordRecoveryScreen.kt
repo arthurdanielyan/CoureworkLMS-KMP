@@ -12,12 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.coursework.corePresentation.commonUi.PrimaryButton
 import com.coursework.corePresentation.commonUi.SpacerHeight
 import com.coursework.corePresentation.commonUi.TextField
+import com.coursework.corePresentation.commonUi.hideKeyboardOnTap
 import com.coursework.corePresentation.commonUi.topBar.TopBarBackButton
 import com.coursework.lms.featureRecoverPassword.RecoverPasswordDestination
 import com.coursework.lms.featureRecoverPassword.verifyPasswordRecovery.presentation.VerifyPasswordRecoveryUiCallbacks
@@ -57,6 +59,7 @@ private fun VerifyPasswordRecoveryScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .hideKeyboardOnTap()
             .systemBarsPadding()
             .padding(16.dp),
     ) {
@@ -78,6 +81,8 @@ private fun VerifyPasswordRecoveryScreen(
             onValueChange = callbacks::onCodeInput,
             placeholder = stringResource(Strings.enter_email),
             keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Done,
+            singleLine = true,
             isError = state.emailMessageError != null,
             errorMessage = state.emailMessageError?.get(),
             errorMessageEnabled = true,
