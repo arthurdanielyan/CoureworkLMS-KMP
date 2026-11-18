@@ -60,10 +60,11 @@ private fun HttpClientConfig<*>.installAuth(
 private fun HttpClientConfig<*>.baseConfig() {
     expectSuccess = true
 
+    // Signup and resend wait for the backend to send an email, which takes several seconds on mobile data.
     install(HttpTimeout) {
         connectTimeoutMillis = 5_000
-        socketTimeoutMillis = 10_000
-        requestTimeoutMillis = 15_000
+        socketTimeoutMillis = 30_000
+        requestTimeoutMillis = 30_000
     }
 
     defaultRequest {

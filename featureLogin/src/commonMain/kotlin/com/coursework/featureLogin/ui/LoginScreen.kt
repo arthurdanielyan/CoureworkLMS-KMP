@@ -119,6 +119,7 @@ private fun LoginScreen(
             text = stringResource(Strings.login),
             onClick = callbacks::onLoginClick,
             enabled = state.isLoginButtonEnabled,
+            isLoading = state.isLoading,
         )
         Spacer(Modifier.weight(1f))
         SecondaryButton(

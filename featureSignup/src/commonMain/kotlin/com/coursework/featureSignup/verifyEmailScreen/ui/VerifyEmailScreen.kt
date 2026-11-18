@@ -79,7 +79,7 @@ private fun VerifyEmailScreen(
         TextButton(
             text = stringResource(Strings.resend),
             onClick = callbacks::onResendClick,
-            enabled = state.isResendButtonEnabled,
+            isLoading = state.isResending,
         )
         TextField(
             modifier = Modifier
@@ -97,6 +97,7 @@ private fun VerifyEmailScreen(
             text = stringResource(Strings.register),
             onClick = callbacks::onRegisterClick,
             enabled = state.isRegisterButtonEnabled,
+            isLoading = state.isRegistering,
         )
         Spacer(Modifier.weight(1f))
     }

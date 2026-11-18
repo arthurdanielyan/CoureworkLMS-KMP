@@ -38,5 +38,4 @@ data class CreateAccountViewState(
             && isEmailInputError.not()
             && isPasswordError.not()
             && passwordsMatchError.not()
-            && isLoading.not()
 }

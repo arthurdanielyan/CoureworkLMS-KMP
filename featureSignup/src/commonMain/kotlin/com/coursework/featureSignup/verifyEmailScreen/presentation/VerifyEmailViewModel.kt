@@ -51,9 +51,9 @@ internal class VerifyEmailViewModel(
     }
 
     override fun onRegisterClick() {
-        if (_uiState.value.isLoading) return
+        if (_uiState.value.isBusy) return
         viewModelScope.launch {
-            setLoading(true)
+            _uiState.update { it.copy(isRegistering = true) }
             verifyEmailUseCase(
                 email = email,
                 code = _uiState.value.codeInput,
@@ -65,14 +65,14 @@ internal class VerifyEmailViewModel(
             }.onFailure { error ->
                 _messages.trySend(error.toErrorMessage())
             }
-            setLoading(false)
+            _uiState.update { it.copy(isRegistering = false) }
         }
     }
 
     override fun onResendClick() {
-        if (_uiState.value.isLoading) return
+        if (_uiState.value.isBusy) return
         viewModelScope.launch {
-            setLoading(true)
+            _uiState.update { it.copy(isResending = true) }
             resendVerificationCodeUseCase(email)
                 .onSuccess {
                     _messages.trySend(StringValue.StringResource(Strings.code_resent))
@@ -80,11 +80,7 @@ internal class VerifyEmailViewModel(
                 .onFailure { error ->
                     _messages.trySend(error.toErrorMessage())
                 }
-            setLoading(false)
+            _uiState.update { it.copy(isResending = false) }
         }
-    }
-
-    private fun setLoading(isLoading: Boolean) {
-        _uiState.update { it.copy(isLoading = isLoading) }
     }
 }

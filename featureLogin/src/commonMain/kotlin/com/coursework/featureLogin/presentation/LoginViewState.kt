@@ -16,5 +16,4 @@ internal data class LoginViewState(
     val isLoginButtonEnabled = emailInput.isNotBlank()
             && passwordInput.isNotEmpty()
             && isEmailInputError.not()
-            && isLoading.not()
 }

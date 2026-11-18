@@ -142,6 +142,7 @@ private fun CreateAccountScreen(
             text = stringResource(CoreStrings.next),
             onClick = callbacks::onNextClick,
             enabled = state.isNextButtonEnabled,
+            isLoading = state.isLoading,
         )
         Spacer(Modifier.weight(1f))
         SecondaryButton(
